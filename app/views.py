@@ -4,15 +4,27 @@ Python Aplication Template
 Licence: GPLv3
 """
 
-from flask import url_for, redirect, render_template, flash, g, session
+from flask import url_for, redirect, render_template, flash, g, session, request, session
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, lm
 from .forms import LoginForm, ExampleForm
 
+from web3 import Web3, KeepAliveRPCProvider, IPCProvider
+from .api import user
 
 @app.route('/')
 def index():
 	return render_template('index.html')
+
+
+@app.route('/test/')
+def test():
+	web3 = Web3(KeepAliveRPCProvider(host='idea2f2p4.eastasia.cloudapp.azure.com', port='8545'))
+	balance = web3.eth.getBalance('0xcb3dce3b17320e5becf8a2c1ffcf329fa7e87069')
+	print(balance)
+	# print(web3.personal.newAccount('1234'))
+	print(web3.eth.accounts)
+	return str(balance)
 
 
 @app.route('/list/')
@@ -25,7 +37,7 @@ def new():
 	form = ExampleForm()
 	return render_template('new.html', form=form)
 
-@app.route('/save/', methods = ['GET','POST'])
+@app.route('/save/', methods=['GET','POST'])
 @login_required
 def save():
 	form = ExampleForm()
@@ -49,9 +61,17 @@ def before_request():
 
 @lm.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+	return User.query.get(int(id))
 
-@app.route('/login/', methods = ['GET', 'POST'])
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+	if request.method == 'POST':
+		return user.register()
+		
+
+
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
 	print(g.user)
 	if g.user is not None and g.user.is_authenticated:
@@ -60,9 +80,7 @@ def login():
 	if form.validate_on_submit():
 		login_user(g.user)
 
-	return render_template('login.html', 
-		title = 'Sign In',
-		form = form)
+	return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/logout/')
 def logout():
