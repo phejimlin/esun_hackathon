@@ -43,6 +43,9 @@ footer{
 	color: #ffffff;
 	text-decoration: none;
 }
+.register{
+	margin-top: 20px;
+}
 
 @media (max-width: 874px){
 	main{
