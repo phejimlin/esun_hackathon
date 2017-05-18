@@ -9,6 +9,9 @@ import datetime
 import uuid
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider
 web3 = Web3(KeepAliveRPCProvider(host='idea2f2p4.eastasia.cloudapp.azure.com', port='8545'))
+contract_address = '0xdfa8275a6ebc213e8aac3fe120b6ecb1124a9ee8'
+master_address = '0xcb3dce3b17320e5becf8a2c1ffcf329fa7e87069'
+master_passphrase = '1QAZ2wsx3edc'
 
 class User(db.Model):
 	ssn = db.Column(db.String(64), primary_key=True)
@@ -58,6 +61,15 @@ class User(db.Model):
 		else:
 			# This account already been signup.
 			return False
+
+class Deal(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	item_id = db.column(db.Integer)
+	timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+	buyer_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
+	seller_id = db,Column(db.String(64), db.ForeignKey('user.ssn'))
+
+	def __init__(id, item_id, )
 
 
 class Feedback(db.Model):
