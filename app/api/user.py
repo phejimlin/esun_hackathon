@@ -7,7 +7,6 @@ from flask.json import jsonify
 
 def register():
 	json_dict = request.get_json()
-	print(json_dict)
 	if json_dict is None:
 		raise InvalidUsage("Mimetype is not application/json!")
 	else:
@@ -43,6 +42,24 @@ def register():
 			education_level, occupation, age, annual_income, employment_year, resident_status, credit_card_status, limit_amount,
 			pre_owned_status, revolving_count, revolving_amount, debt_status, mortgage, debt_amount, balance_amount, debt, delinquent, ever_in_use
 		):
+			session['ssn'] = ssn
 			return ("Sign up successfully!", 200)
 		else:
 			return ("The account already Signup!", 200)
+
+def login():
+	json_dict = request.get_json()
+	if json_dict is None:
+		raise InvalidUsage("Mimetype is not application/json!")
+	else:
+		try:
+			ssn = json_dict['ssn']
+			password = json_dict['password']
+		except (ValueError, KeyError, TypeError) as error:
+			raise InvalidUsage("Missing Parameters:" + str(error))
+
+		if User.login(ssn, password):
+			session['ssn'] = ssn
+			return ("Login successfully!", 200)
+		else:
+			return ("Login Error!", 200)

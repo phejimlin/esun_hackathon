@@ -103,12 +103,7 @@ class User(db.Model):
 		if not user:
 			eth_password = str(uuid.uuid1())
 			eth_address = web3.personal.newAccount(eth_password)
-			print('models',(
-				ssn, password, name, email,
-				education_level, occupation, age, annual_income, employment_year, resident_status, credit_card_status, limit_amount,
-				pre_owned_status, revolving_count, revolving_amount, debt_status, mortgage, debt_amount, balance_amount, debt, delinquent, ever_in_use
-				)
-			)
+
 			new_user = User(
 				ssn, password, name, email, eth_address, eth_password,
 				education_level, occupation, age, annual_income, employment_year, resident_status, credit_card_status, limit_amount,
@@ -120,6 +115,15 @@ class User(db.Model):
 		else:
 			# This account already been signup.
 			return False
+
+	@staticmethod
+	def login(ssn, password):
+		user = User.query.get(ssn)
+		if user:
+			return True
+		else:
+			return False
+		
 
 class Deal(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
