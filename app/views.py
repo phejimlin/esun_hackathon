@@ -10,7 +10,7 @@ from app import app, lm
 from .forms import LoginForm, ExampleForm
 from .invalidusage import InvalidUsage
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider
-from .api import user
+from .api import user, deal
 from flask.json import jsonify
 
 # serving static file such as js css.
@@ -58,6 +58,12 @@ def login():
 		return redirect(url_for('index'))
 	else:
 		return render_template('login.html')
+
+@app.route('/deal/', methods=['POST'])
+def deal():
+	if request.method == 'POST':
+		return deal.create_deal();
+
 
 # === User login methods ===
 
