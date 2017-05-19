@@ -67,9 +67,9 @@ class Deal(db.Model):
 	item_id = db.column(db.Integer)
 	timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 	buyer_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
-	seller_id = db,Column(db.String(64), db.ForeignKey('user.ssn'))
+	seller_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
 
-	def __init__(id, item_id, )
+	# def __init__(id, item_id, )
 
 
 class Feedback(db.Model):
