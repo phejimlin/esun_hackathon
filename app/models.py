@@ -9,9 +9,10 @@ import datetime
 import uuid
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider
 web3 = Web3(KeepAliveRPCProvider(host='idea2f2p4.eastasia.cloudapp.azure.com', port='8545'))
-contract_address = '0xdfa8275a6ebc213e8aac3fe120b6ecb1124a9ee8'
+contract_address = '0x11bdefdc7179d1e8760f9ddbd70d40ae2024923d'
 master_address = '0xcb3dce3b17320e5becf8a2c1ffcf329fa7e87069'
 master_passphrase = '1QAZ2wsx3edc'
+contract_abi = [{"constant":True,"inputs":[{"name":"","type":"uint256"}],"name":"deals","outputs":[{"name":"buyer","type":"address"},{"name":"seller","type":"address"},{"name":"buyer_sent","type":"bool"},{"name":"seller_sent","type":"bool"}],"payable":False,"type":"function"},{"constant":False,"inputs":[{"name":"timestamp","type":"uint256"},{"name":"addr","type":"address"},{"name":"score","type":"int256"}],"name":"set_user_score","outputs":[],"payable":False,"type":"function"},{"constant":False,"inputs":[{"name":"dealID","type":"uint256"},{"name":"timestamp","type":"string"},{"name":"score","type":"int256"},{"name":"message","type":"string"}],"name":"send_feedback","outputs":[],"payable":False,"type":"function"},{"constant":False,"inputs":[{"name":"timestamp","type":"string"},{"name":"itemID","type":"uint256"},{"name":"buyer","type":"address"},{"name":"seller","type":"address"}],"name":"create_deal","outputs":[],"payable":False,"type":"function"},{"constant":True,"inputs":[],"name":"master","outputs":[{"name":"","type":"address"}],"payable":False,"type":"function"},{"inputs":[],"payable":False,"type":"constructor"},{"anonymous":False,"inputs":[{"indexed":False,"name":"_dealID","type":"uint256"},{"indexed":False,"name":"_timestamp","type":"string"},{"indexed":False,"name":"_itemID","type":"uint256"},{"indexed":True,"name":"_buyer","type":"address"},{"indexed":True,"name":"_seller","type":"address"}],"name":"deal_created","type":"event"},{"anonymous":False,"inputs":[{"indexed":True,"name":"_dealID","type":"uint256"},{"indexed":False,"name":"_timestamp","type":"string"},{"indexed":True,"name":"sender","type":"address"},{"indexed":True,"name":"receiver","type":"address"},{"indexed":False,"name":"_sender_is_seller","type":"bool"},{"indexed":False,"name":"_score","type":"int256"},{"indexed":False,"name":"_message","type":"string"}],"name":"feedback_sent","type":"event"},{"anonymous":False,"inputs":[{"indexed":True,"name":"addr","type":"address"},{"indexed":True,"name":"timestamp","type":"uint256"},{"indexed":False,"name":"old_score","type":"int256"},{"indexed":False,"name":"new_score","type":"int256"}],"name":"user_score_changed","type":"event"}]
 
 class User(db.Model):
 	ssn = db.Column(db.String(64), primary_key=True)
@@ -49,7 +50,7 @@ class User(db.Model):
 
 	@staticmethod
 	def register(ssn, password, name, email):
-		user = User.query.filter_by(ssn=ssn).first()
+		user = User.query.get(ssn)
 		if not user:
 			eth_password = str(uuid.uuid1())
 			eth_address = web3.personal.newAccount(eth_password)
@@ -69,7 +70,25 @@ class Deal(db.Model):
 	buyer_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
 	seller_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
 
-	# def __init__(id, item_id, )
+	def __init__(id, item_id, buyer_id, seller_id):
+		self.id = id
+		self.item_id = item_id
+		self.buyer_id = buyer_id
+		self.seller_id = seller_id
+
+	def create_deal(item_id, buyer_id, seller_id):
+		# Create deal in blockchain and get deal id
+		# Get buyer and seller address first
+		buyer_addr = User.query.get(buyer_id).eth_address
+		seller_addr = User.query.get(seller_id).eth_address
+
+		#Unlock and call contract function
+		contract = web3.eth.contract(address = contract_address, abi = contract_abi)
+		web3.personal.unlockAccount(master_address, master_passphrase)
+		receipt = contract.transact({'from': master_address}).create_deal(
+			datetime.datetime.utcnow().strftime('%B %d %Y %H:%M:%S'), item_id, buyer_addr, seller_addr)
+		
+
 
 
 class Feedback(db.Model):
