@@ -20,6 +20,7 @@ app.config.from_object('app.configuration.DevelopmentConfig')
 Bootstrap(app) #flask-bootstrap
 db = SQLAlchemy(app) #flask-sqlalchemy
 
+
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
