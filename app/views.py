@@ -8,9 +8,11 @@ from flask import url_for, redirect, render_template, flash, g, session, request
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, lm
 from .forms import LoginForm, ExampleForm
-
+from .invalidusage import InvalidUsage
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider
 from .api import user
+from flask.json import jsonify
+
 
 @app.route('/')
 def index():
@@ -63,6 +65,14 @@ def before_request():
 def load_user(id):
 	return User.query.get(int(id))
 
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+	if error.get_error_type() == 'redirectToLoginPage':
+		return redirect(url_for('login'))
+	else:
+		response = jsonify(error.to_dict())
+		response.status_code = error.status_code
+		return response
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
