@@ -79,6 +79,7 @@ if __name__ == "__main__":
     corpus = list(np.load('top_n.npy'))
     comment_scores = []
     for doc in dirs:
+        print(doc)
         data = load_data(doc)
         X_data = []
         Y_data = []
@@ -87,7 +88,10 @@ if __name__ == "__main__":
                 
                 for items in info:
                     for item in items:
-                        score_type = item['point']
+                        try:
+                            score_type = item['point']
+                        except:
+                            continue
                         if score_type == 'good' or score_type == 'bad':
                             comment = item['content'][0]
                             if 'content' in comment:
@@ -106,10 +110,11 @@ if __name__ == "__main__":
                                         Y_data.append(1)
                                     if score_type == 'bad':
                                         Y_data.append(0)
-        np.save('X-{0}'.format(doc), np.array(X_data))
-        np.save('Y-{0}'.format(doc), np.array(Y_data))
+                                    if score_type == 'soso':
+                                        Y_data.append(2)
+        np.save('ruten_npy/X-{0}'.format(doc), np.array(X_data))
+        np.save('ruten_npy/Y-{0}'.format(doc), np.array(Y_data))
 
-        break
 
 
 

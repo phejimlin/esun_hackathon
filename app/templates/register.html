@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- CSS files start -->
-<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/login.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+<link href="../static/css/login.css" rel="stylesheet" type="text/css" media="all" />
 <!-- CSS files start -->
 </head>
 <body>
@@ -16,22 +16,182 @@
         <div class="row-height">
           <div class="col-centered" align="center">
             <div class="rootLR">
-              <img src="../img/logo.png" style="width: 300px;">
+              <img src="../static/img/logo.png" style="width: 300px;">
               <h3 style="color: #999;">- Welcome to join us -</h3>
               <!--registration form-->
               <div id="registration_form">
                 <form>
                   <div class="input_form">
-                    <input id="id_num" type="text" style="color: #999; padding: 6px;" value="ID Card Number"/>
+                    <input id="id_num" type="text" style="color: #999; padding: 6px;" value="ID Card Number" onfocus="cleartext(this)" onblur="resettext(this)"/>
                   </div>
                   <div class="input_form">
-                    <input id="usr_name" type="text" style="color: #999; padding: 6px;" value="Name"/>
+                    <input id="usr_name" type="text" style="color: #999; padding: 6px;" value="Name" onfocus="cleartext(this)" onblur="resettext(this)"/>
                   </div>
                   <div class="input_form">
-                    <input id="pwd" type="text" style="color: #999; padding: 6px;" value="Password"/>
+                    <input id="pwd" type="text" style="color: #999; padding: 6px;" value="Password" onfocus="cleartext(this)" onblur="resettext(this)"/>
                   </div>
                   <div class="input_form">
-                    <input id="pwd_again" type="text" style="color: #999; padding: 6px;" value="Confirm Password"/>
+                    <input id="pwd_again" type="text" style="color: #999; padding: 6px;" value="Confirm Password" onfocus="cleartext(this)" onblur="resettext(this)"/>
+                  </div>
+                  <div class="input_form">
+                    <input id="email" type="text" style="color: #999; padding: 6px;" value="E-mail" onfocus="cleartext(this)" onblur="resettext(this)"/>
+                  </div>
+                  <div class="input_form">
+                    <select class="wrapper-dropdown">
+                      <option value="1">博士</option>
+                      <option value="2">碩士</option>
+                      <option value="3">大學</option>
+                      <option value="4">專科</option>
+                      <option value="5">高中(職)</option>
+                      <option value="6">國中</option>
+                      <option value="7">小學</option>
+                      <option value="8">其他</option>
+                    </select>
+                  </div>
+                  <div class="input_form">
+                    <select class="wrapper-dropdown">
+                      <option value="1">公務人員</option>
+                      <option value="2">教師</option>
+                      <option value="3">醫師、會計師、律師</option>
+                      <option value="4">軍警人員</option>
+                      <option value="5">護理人員</option>
+                      <option value="6">中小企業主</option>
+                      <option value="7">主管人員</option>
+                      <option value="8">上班族（內勤）</option>
+                      <option value="9">上班族（外勤）</option>
+                      <option value="10">服務人員</option>
+                      <option value="11">家管</option>
+                      <option value="13">待業中</option>
+                      <option value="14">退休人員</option>
+                      <option value="99">其他</option>
+                    </select>
+                  </div>
+                  <div class="input_form">
+                    <select class="wrapper-dropdown">
+                      <option value="1">20 歲至 29 歲</option>
+                      <option value="2">30 歲至 39 歲</option>
+                      <option value="3">40 歲至 49 歲</option>
+                      <option value="4">50 歲至 59 歲</option>
+                      <option value="5">60 歲至 64 歲</option>
+                      <option value="6">65 歲以上 </option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>年收入</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="200000">20 萬元以下</option>
+                      <option value="250000">21 萬至 30 萬元</option>
+                      <option value="350000">31 萬至 40 萬元</option>
+                      <option value="450000">41 萬至 50 萬元</option>
+                      <option value="550000">51 萬至 60 萬元</option>
+                      <option value="650000">61 萬至 70 萬元</option>
+                      <option value="750000">71 萬至 80 萬元</option>
+                      <option value="850000">81 萬至 90 萬元</option>
+                      <option value="950000">91 萬至 100 萬元</option>
+                      <option value="1250000">101 萬至 150 萬元</option>
+                      <option value="1750000">151 萬至 200 萬元</option>
+                      <option value="2750000">201 萬至 300 萬元</option>
+                      <option value="3000000">300 萬元以上</option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>工作年資</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="0.5">未滿半年</option>
+                      <option value="0.9">未滿 1 年 </option>
+                      <option value="1">1 年</option>
+                      <option value="2">2 年 </option>
+                      <option value="3">3 年以上</option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>居住現況</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="0">自有房屋</option>
+                      <option value="1">家族房屋</option>
+                      <option value="2">宿舍</option>
+                      <option value="3">租屋</option>
+                      <option value="4">其他</option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>信用卡使用狀況</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="0">沒有使用信用卡</option>
+                      <option value="1">使用未滿半年</option>
+                      <option value="2">使用未滿一年</option>
+                      <option value="3">使用一年以上</option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>最常使用之信用卡額度</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="0">無信用卡</option>
+                      <option value="30000">3 萬元以下</option>
+                      <option value="50000">3 萬至 5 萬元</option>
+                      <option value="80000">6 萬至 10 萬元</option>
+                      <option value="125000">11 萬至 15 萬元</option>
+                      <option value="175000">16 萬至 20 萬元 </option>
+                      <option value="225000">21 萬至 25 萬元</option>
+                      <option value="275000">26 萬至 30 萬元</option>
+                      <option value="325000">30 萬元以上</option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>分期使用現況</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="0">不會使用</option>
+                      <option value="1">有分期 0 利率就會使用</option>
+                      <option value="2">能分期就會使用</option>
+                      <option value="3">看情況使用</option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>分期使用現況</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="0">無使用循環</option>
+                      <option value="1">1 家</option>
+                      <option value="2">2 家 </option>
+                      <option value="3">3 家</option>
+                      <option value="4">4 家以上</option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>循環金額</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="0">無使用循環</option>
+                      <option value="5000">5 千元以下</option>
+                      <option value="8000">5 千至 8 千元</option>
+                      <option value="10000">8 千至 1 萬元</option>
+                      <option value="12500">1 萬至 1 萬 5 千元</option>
+                      <option value="17500">1 萬 5 千元至 2 萬元</option>
+                      <option value="22500">2 萬至 2 萬 5 千元 </option>
+                      <option value="27500">2 萬 5 千至 3 萬元</option>
+                      <option value="35000">3 萬至 4 萬元</option>
+                      <option value="45000">4 萬至 5 萬元</option>
+                      <option value="55000">5 萬至 6 萬元</option>
+                      <option value="65000">6 萬至 7 萬元</option>
+                      <option value="75000">7 萬至 8 萬元</option>
+                      <option value="85000">8 萬至 9 萬元</option>
+                      <option value="95000">9 萬至 10 萬元 </option>
+                      <option value="125000">10 萬至 15 萬元</option>
+                      <option value="175000">16 萬至 20 萬元</option>
+                      <option value="225000">21 萬至 25 萬元</option>
+                      <option value="275000">26 萬至 30 萬元</option>
+                      <option value="325000">31 萬至 35 萬元</option>
+                      <option value="375000">36 萬至 40 萬元</option>
+                      <option value="425000">41 萬至 45 萬元</option>
+                      <option value="500000">45 萬元以上</option>
+                    </select>
+                  </div>
+                  <div style='width:207px; text-align: left;'><span>銀行貸款狀況</span></div>
+                  <div class="" style="margin-bottom: 30px;">
+                    <select class="wrapper-dropdown">
+                      <option value="0">沒有銀行貸款</option>
+                      <option value="1">名下貸款最長未滿半年</option>
+                      <option value="2">名下貸款最長未滿一年</option>
+                      <option value="3">名下貸款最長超過一年</option>
+                    </select>
                   </div>
                   <div class="login_button"><a href="javascript: register();">Register</a></div>
                   <div class="register">Or <a href="login.html">Login</a></div>
@@ -51,9 +211,9 @@
 
 <!-- JavaScript files start -->
 <!-- jQuery -->
-<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--<script type="text/javascript" src="../static/js/login.js"></script>-->
+<script src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/login.js"></script>
 </html>
