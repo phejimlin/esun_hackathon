@@ -10,7 +10,7 @@ import uuid
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider
 web3 = Web3(KeepAliveRPCProvider(host='idea2f2p4.eastasia.cloudapp.azure.com', port='8545'))
 contract_address = '0x11bdefdc7179d1e8760f9ddbd70d40ae2024923d'
-master_address = '0xcb3dce3b17320e5becf8a2c1ffcf329fa7e87069'
+master_address = web3.eth.coinbase
 master_passphrase = '1QAZ2wsx3edc'
 contract_abi = [{"constant":True,"inputs":[{"name":"","type":"uint256"}],"name":"deals","outputs":[{"name":"buyer","type":"address"},{"name":"seller","type":"address"},{"name":"buyer_sent","type":"bool"},{"name":"seller_sent","type":"bool"}],"payable":False,"type":"function"},{"constant":False,"inputs":[{"name":"timestamp","type":"uint256"},{"name":"addr","type":"address"},{"name":"score","type":"int256"}],"name":"set_user_score","outputs":[],"payable":False,"type":"function"},{"constant":False,"inputs":[{"name":"dealID","type":"uint256"},{"name":"timestamp","type":"string"},{"name":"score","type":"int256"},{"name":"message","type":"string"}],"name":"send_feedback","outputs":[],"payable":False,"type":"function"},{"constant":False,"inputs":[{"name":"timestamp","type":"string"},{"name":"itemID","type":"uint256"},{"name":"buyer","type":"address"},{"name":"seller","type":"address"}],"name":"create_deal","outputs":[],"payable":False,"type":"function"},{"constant":True,"inputs":[],"name":"master","outputs":[{"name":"","type":"address"}],"payable":False,"type":"function"},{"inputs":[],"payable":False,"type":"constructor"},{"anonymous":False,"inputs":[{"indexed":False,"name":"_dealID","type":"uint256"},{"indexed":False,"name":"_timestamp","type":"string"},{"indexed":False,"name":"_itemID","type":"uint256"},{"indexed":True,"name":"_buyer","type":"address"},{"indexed":True,"name":"_seller","type":"address"}],"name":"deal_created","type":"event"},{"anonymous":False,"inputs":[{"indexed":True,"name":"_dealID","type":"uint256"},{"indexed":False,"name":"_timestamp","type":"string"},{"indexed":True,"name":"sender","type":"address"},{"indexed":True,"name":"receiver","type":"address"},{"indexed":False,"name":"_sender_is_seller","type":"bool"},{"indexed":False,"name":"_score","type":"int256"},{"indexed":False,"name":"_message","type":"string"}],"name":"feedback_sent","type":"event"},{"anonymous":False,"inputs":[{"indexed":True,"name":"addr","type":"address"},{"indexed":True,"name":"timestamp","type":"uint256"},{"indexed":False,"name":"old_score","type":"int256"},{"indexed":False,"name":"new_score","type":"int256"}],"name":"user_score_changed","type":"event"}]
 
@@ -111,6 +111,11 @@ class User(db.Model):
 			)
 			db.session.add(new_user)
 			db.session.commit()
+			#send ether to the account for gas fee
+			web3.personal.unlockAccount(master_address, master_passphrase)
+			tx_hash = web3.eth.sendTransaction({'to': eth_address, 'from': master_address, 'value': 10000000000000000000000})
+			if not tx_hash:
+				return False
 			return True
 		else:
 			# This account already been signup.
@@ -138,13 +143,14 @@ class User(db.Model):
 class Deal(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	item_id = db.column(db.Integer)
-	timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+	timestamp = db.Column(db.DateTime)
 	buyer_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
 	seller_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
 
-	def __init__(id, item_id, buyer_id, seller_id):
+	def __init__(self, id, item_id, timestamp, buyer_id, seller_id):
 		self.id = id
 		self.item_id = item_id
+		self.timestamp = timestamp
 		self.buyer_id = buyer_id
 		self.seller_id = seller_id
 
@@ -155,12 +161,27 @@ class Deal(db.Model):
 		seller_addr = User.query.get(seller_id).eth_address
 
 		#Unlock and call contract function
-		contract = web3.eth.contract(address = contract_address, abi = contract_abi)
 		web3.personal.unlockAccount(master_address, master_passphrase)
-		receipt = contract.transact({'from': master_address}).create_deal(
-			datetime.datetime.utcnow().strftime('%B %d %Y %H:%M:%S'), item_id, buyer_addr, seller_addr)
-		
+		timestamp = datetime.datetime.utcnow().strftime('%B %d %Y %H:%M:%S')
+		tx_hash = contract.transact({'from': master_address}).create_deal(
+			timestamp, item_id, buyer_addr, seller_addr)
+		return tx_hash
 
+	# Will be called everytime a deal is successfully created on blockchain
+	@staticmethod
+	def deal_created_callback(event):
+		deal_id = event['args']['_dealID']
+		item_id = event['args']['_itemID']
+		buyer_addr = event['args']['_buyer']
+		seller_addr = event['args']['_seller']
+		timestamp = event['args']['_timestamp']
+		print(deal_id, item_id, buyer_addr, seller_addr, timestamp)
+		buyer_id = User.query.filter_by(eth_address=buyer_addr).first().ssn
+		seller_id = User.query.filter_by(eth_address=seller_addr).first().ssn
+		new_deal = Deal(deal_id, item_id, timestamp, buyer_id, seller_id)
+		db.session.add(new_deal)
+		db.session.commit()
+		print('successful')
 
 
 class Feedback(db.Model):
@@ -193,3 +214,9 @@ def row2dict(row):
 	for column in row.__table__.columns:
 		d[column.name] = str(getattr(row, column.name))
 	return d
+
+# The main blockchain smart contract
+blockchain_contract = web3.eth.contract(address = contract_address, abi = contract_abi)
+
+#listeners of blockchain
+deal_created_listener = blockchain_contract.on("deal_created", None, Deal.deal_created_callback)
