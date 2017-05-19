@@ -7,6 +7,7 @@ from flask.json import jsonify
 
 def register():
 	json_dict = request.get_json()
+	print(json_dict)
 	if json_dict is None:
 		raise InvalidUsage("Mimetype is not application/json!")
 	else:
@@ -15,10 +16,33 @@ def register():
 			password = json_dict['password']
 			name = json_dict['name']
 			email = json_dict['email']
+			age = json_dict['age']
+			education_level = json_dict['education_level']
+			occupation = json_dict['occupation']
+			annual_income = json_dict['annual_income']
+			employment_year = json_dict['employment_year']
+			resident_status=json_dict['resident_status']
+			credit_card_status=json_dict['credit_card_status']
+			limit_amount=json_dict['limit_amount']
+			pre_owned_status=json_dict['pre_owned_status']
+			revolving_count=json_dict['revolving_count']
+			revolving_amount=json_dict['revolving_amount']
+			debt_status=json_dict['debt_status']
+			mortgage=json_dict['mortgage']
+			debt_amount=json_dict['debt_amount']
+			balance_amount=json_dict['balance_amount']
+			debt=json_dict['debt']
+			delinquent=json_dict['delinquent']
+			ever_in_use=json_dict['ever_in_use']
+			
 		except (ValueError, KeyError, TypeError) as error:
-			raise InvalidUsage("Missing Parameters: " + str(error))
+			raise InvalidUsage("Missing Parameters:" + str(error))
 
-		if User.register(ssn, password, name, email):
+		if User.register(
+			ssn, password, name, email,
+			education_level, occupation, age, annual_income, employment_year, resident_status, credit_card_status, limit_amount,
+			pre_owned_status, revolving_count, revolving_amount, debt_status, mortgage, debt_amount, balance_amount, debt, delinquent, ever_in_use
+		):
 			return ("Sign up successfully!", 200)
 		else:
 			return ("The account already Signup!", 200)
