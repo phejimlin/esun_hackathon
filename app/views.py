@@ -60,7 +60,7 @@ def login():
 		return render_template('login.html')
 
 @app.route('/deal/', methods=['POST'])
-def deal():
+def _deal():
 	if request.method == 'POST':
 		return deal.create_deal();
 
