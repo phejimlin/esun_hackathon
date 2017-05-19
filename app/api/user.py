@@ -63,3 +63,11 @@ def login():
 			return ("Login successfully!", 200)
 		else:
 			return ("Login Error!", 200)
+
+def get_profile():
+	ssn = session['ssn']
+	other_ssn = request.args.get('other_ssn')
+	if other_ssn is None:
+		return jsonify(User.get_user_info(ssn))
+	else:
+		return jsonify(User.get_user_info(ssn, other_ssn))

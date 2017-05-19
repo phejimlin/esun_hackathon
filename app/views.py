@@ -30,7 +30,9 @@ def posts():
 
 @app.route('/profile/', methods=['GET'])
 def profile():
-	return render_template('profile.html')
+	session_check('render_page')
+	return user.get_profile()
+	# return render_template('profile.html', me=user.get_profile())
 
 
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -75,3 +77,13 @@ def handle_invalid_usage(error):
 		response = jsonify(error.to_dict())
 		response.status_code = error.status_code
 		return response
+
+
+def session_check(request_type):
+    # request_type only will be api or render_page.
+    if request_type == 'api':
+        if 'ssn' not in session:
+            raise InvalidUsage("unauthorized", 401)
+    elif request_type == 'render_page':
+        if 'ssn' not in session:
+            raise InvalidUsage(None, None, None, "redirectToLoginPage")

@@ -24,4 +24,6 @@ lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
 
+app.secret_key = 'x88=B\xdeJHP\xce\x17\x0f\x16\xe7\xaf\xcf\xf2J!b\xa8{\xbcc\xe8j'
+
 from app import views, models
