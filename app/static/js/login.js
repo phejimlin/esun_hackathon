@@ -1,3 +1,4 @@
+var currentURL = window.location;
 function resettext(id){
   if(id.value == ""){
     id.value = id.defaultValue;   
