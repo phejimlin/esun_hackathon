@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 #Configuration of application, see configuration.py, choose one and uncomment.
 #app.config.from_object('configuration.ProductionConfig')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://jim@esunmysql:1QAZ2wsx3edc@esunmysql.mysql.database.azure.com/esun'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://jim@esunmysql:1QAZ2wsx3edc@esunmysql.mysql.database.azure.com/esun?charset=utf8mb4'
 app.config.from_object('app.configuration.DevelopmentConfig')
 #app.config.from_object('configuration.TestingConfig')
 

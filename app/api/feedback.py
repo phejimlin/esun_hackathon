@@ -18,7 +18,7 @@ def create_feedback():
 			to_user_id = json_dict['to_user_id']
 		except (ValueError, KeyError, TypeError) as error:
 			raise InvalidUsage("Missing Parameters: " + str(error))
-		tx_hash = Feedback.create_feedback(deal_id, score, messgae, from_user_id, to_user_id)
+		tx_hash = Feedback.create_feedback(deal_id, score, message, from_user_id, to_user_id)
 		if tx_hash:
 			return ("Feedback is sent to blockchain, transaction hash: " + tx_hash, 200)
 		else:

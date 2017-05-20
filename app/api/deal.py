@@ -11,13 +11,13 @@ def create_deal():
 		raise InvalidUsage("Mimetype is not application/json!")
 	else:
 		try:
-			item_id = json_dict['item_id']
+			item_name = json_dict['item_name']
 			buyer_id = json_dict['buyer_id']
 			seller_id = json_dict['seller_id']
 		except (ValueError, KeyError, TypeError) as error:
 			raise InvalidUsage("Missing Parameters: " + str(error))
-		tx_hash = Deal.create_deal(item_id, buyer_id, seller_id)
+		tx_hash = Deal.create_deal(item_name, buyer_id, seller_id)
 		if tx_hash:
 			return ("Deal is sent to blockchain, transaction hash: " + tx_hash, 200)
 		else:
-			return ("The account already Signup!", 200)
+			return ("Failed to add deal", 400)
