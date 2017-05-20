@@ -199,13 +199,14 @@ class Feedback(db.Model):
         self.to_who = to_who
         self.to_user_id = to_who.ssn
 
-    def create_feedback(deal_id, score, message, from_is_seller, from_user_id, to_user_id):
+    def create_feedback(deal_id, score, message, from_user_id, to_user_id):
         from_user = User.query.get(from_user_id)
         to_user_id = User.query.get(to_user_id).eth_address
         web3.personal.unlockAccount(from_user.eth_address, from_user.eth_password)
         timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
         tx_hash = blockchain_contract.transact({'from': from_user.eth_address}).send_feedback(
             deal_id, timestamp, score, message.encode('utf8'))
+        print(tx_hash)
         return tx_hash
 
 
@@ -271,11 +272,7 @@ def feedback_sent_callback(event):
         seal.buyer_to_seller_feedback_id = feedback.id
     callback_db_session.commit()
 
-    
-    
-
-
-    
+ 
 
 def row2dict(row):
 	d = {}
