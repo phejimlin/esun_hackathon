@@ -27,7 +27,7 @@ class User(db.Model):
 	name = db.Column(db.String(500), unique=True)
 	email = db.Column(db.String(120))
 	# blockchain
-	credit_score = db.Column(db.Integer)
+	credit_score = db.Column(db.Float)
 	eth_address = db.Column(db.String(50))
 	eth_password = db.Column(db.String(500))
 	# esun
@@ -69,7 +69,7 @@ class User(db.Model):
 
 
 	def __init__(
-		self, ssn, password, name, email,
+		self, ssn, password, name, email, credit_score,
 		eth_address, eth_password,
 		education_level, occupation, age, annual_income, employment_year, resident_status, credit_card_status, limit_amount,
 		pre_owned_status, revolving_count, revolving_amount, debt_status, mortgage, debt_amount, balance_amount, debt, delinquent, ever_in_use,
@@ -79,7 +79,7 @@ class User(db.Model):
 		self.password = password
 		self.name = name
 		self.email = email
-		self.credit = 0
+		self.credit_score = credit_score
 		self.eth_address = eth_address
 		self.eth_password = eth_password
 		self.education_level = education_level
@@ -223,7 +223,7 @@ class Feedback(db.Model):
     message = db.Column(db.Text)
     from_is_seller = db.Column(db.Boolean)
     created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    # from_user_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
+    from_user_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
     # from_who = db.relationship('User', foreign_keys=[from_user_id])
     to_user_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
     # to_who = db.relationship('User', foreign_keys=[to_user_id])
