@@ -10,7 +10,7 @@ from app import app, lm
 from .forms import LoginForm, ExampleForm
 from .invalidusage import InvalidUsage
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider
-from .api import user
+from .api import user, deal, feedback, blockchain
 from flask.json import jsonify
 
 # serving static file such as js css.
@@ -58,6 +58,23 @@ def login():
 		return redirect(url_for('index'))
 	else:
 		return render_template('login.html')
+
+@app.route('/api/deal/', methods=['GET', 'POST'])
+def deal_api():
+	if request.method == 'POST':
+		return deal.create_deal();
+
+@app.route('/api/feedback/', methods=['GET', 'POST'])
+def feedback_api():
+	if request.method == 'POST':
+		return feedback.create_feedback();
+
+@app.route('/api/blockchain/<path:path>', methods=['GET', 'POST'])
+def blockchain_api(path):
+	if request.method == 'GET':
+		if path == 'blocks':
+			return blockchain.get_newest_20_blocks();
+
 
 # === User login methods ===
 

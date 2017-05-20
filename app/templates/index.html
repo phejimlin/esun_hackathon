@@ -14,13 +14,19 @@
     <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #F5F5F5;">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html"><img src='../static/img/logo.png' width="120px;" style="margin-top: -10px;"></a>
+                <a class="navbar-brand" href="index.html"><img src='../static/img/logo.png' width="160px;" style="margin-top: -10px;"></a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
+                <li><a href="blockchain.html" style="font-size: 20px; margin-top: 2pt;">Dashboard</a></li>
             </ul>
+            <div style="float: right;">
+                <div class="form-group" style="float: right; margin-top: 8pt;width:300pt;padding-right: 20pt;">
+                    <button type="button" class="btn search" style="float: right;background-color: orange;">GO</button>
+                    <div style="float: right;margin-right: 1pt;">
+                        <input type="text" class="form-control" id="input_v" style="width: 100%;">   
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -34,8 +40,8 @@
                             <img src="../static/img/user.png" style="width: 180px; margin-left: 20px;">
                         </div>
                         <div class="col-md-6">
-                            <h4 id="usr_name">Name</h4>
-                            <h4 id="usr_email">E-mail</h4>
+                            <h4 id="usr_name" class="info"></h4>
+                            <h4 id="usr_email" class="info"></h4>
                         </div>
                     </div>
                 </div>

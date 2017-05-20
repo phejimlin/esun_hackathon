@@ -1,5 +1,5 @@
 html, body{
-    font-size: 100%;
+  font-size: 100%;
 	font-family: 'Open Sans', sans-serif;
 }
 .container{
@@ -11,6 +11,9 @@ html, body{
 	padding: 100px 50px 30px 50px;
 	background-color: #DFF1F4;
 	margin-bottom: 100px;
+}
+.info{
+  font-size: 24px;
 }
 
 a {
