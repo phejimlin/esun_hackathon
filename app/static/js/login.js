@@ -25,8 +25,7 @@ function login(){
     success:function(response){
       console.log("Just login")
 
-      var currentURL = window.location;
-      window.location = "http://idea.cs.nthu.edu.tw/~eunice/test/app/templates/index.html";
+      window.location = currentURL.origin + '/index.html';
     },
     error:function(error){
       console.log(error);

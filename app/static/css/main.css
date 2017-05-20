@@ -12,6 +12,9 @@ html, body{
 	background-color: #DFF1F4;
 	margin-bottom: 100px;
 }
+.info{
+  font-size: 24px;
+}
 
 a {
   color: #ccc;
