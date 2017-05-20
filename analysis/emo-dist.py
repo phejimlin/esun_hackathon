@@ -23,7 +23,7 @@ for emo_file in ['emo_fb_comments5.json', 'emo_fb_comments2.json']:
 			emo_freq[comment['emotion2']] += 1
 			emo_consist += [1 if comment['emotion1'] in last_emo or comment['emotion2'] in last_emo else 0]
 			last_emo = [comment['emotion1'], comment['emotion2']]
-
+		print(emo_freq)
 		norm_emo_freq = normalize(np.array(list(emo_freq.values())).reshape(1, -1), axis=1)
 		emo_std = np.array(emo_consist).std()
 		
