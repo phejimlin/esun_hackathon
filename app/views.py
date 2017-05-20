@@ -60,7 +60,7 @@ def login():
 		return render_template('login.html')
 
 @app.route('/blockchain/', methods=['GET'])
-def blockchain():
+def blockchain_explorer():
 	return render_template('blockchain.html')
 
 @app.route('/api/deal/', methods=['GET', 'POST'])
