@@ -1,0 +1,87 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <!--
+            This template is provided for free of charge by Email on Acid, LLC.
+
+            Every email client is different. See exactly how your email looks in the most popular inboxes, so you can fix any problems before you hit send.
+            https://www.emailonacid.com/
+        -->
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <title>Block Chain Explorer</title>
+        <style type="text/css">
+    
+        </style>
+    </head>
+    <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="font-family: Georgia, Times, serif;font-family:Microsoft JhengHei;">
+        <div style="background-color: #00AD97;width: 100%;height: 60pt;">
+            <div style="height: 60pt;float: left;">
+                <img src="../static/img/icredible.png" style="height: 100%;">
+            </div>
+            <div style="height: 60pt;float: right;">
+                <div class="form-group" style="float: right;height: 38pt;margin-top:12pt;width:300pt;padding-right: 20pt;">
+                    <button type="button" class="btn" style="float: right;background-color: orange;">GO</button>
+                    <div style="float: right;margin-right: 1pt;">
+                        <input type="text" class="form-control" id="usr" style="width: 100%;">   
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 90%;margin-left: 5%;background-color: #DDDDDD;float: left;padding-top: 30pt;padding-bottom: 30pt;">
+            <div class="col-md-12" style="padding: 15pt;">
+                <div style="width: 100%;border-bottom: solid 3pt orange;height: 28pt;">
+                    <p style="width:80pt;height:28pt;background-color: orange;color: white;padding-top: 6pt;" align="center">Overview</p>
+                </div>
+                <div style="width: 100%;height: 28pt;background-color: #FFDDAA;">
+                    <p style="color: orange;padding-top: 7pt;padding-left: 15pt;">information</p>
+                </div>
+                <div style="width: 100%;height: 430pt;border: solid 2pt #FFDDAA;background-color: white;">
+                    
+                </div>
+            </div>
+
+        </div>
+
+
+        <footer style="width: 100%;height: 70pt;background-color: gray;float: left;">
+            
+        </footer>
+    </body>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            loadall();   
+        });
+        function loadall(){
+            data = getUrlVars()['v'];
+        }
+        function getUrlVars()
+        {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+    </script>
+    
+</html>
