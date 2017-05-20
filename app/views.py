@@ -20,7 +20,15 @@ def send_static(filename):
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+    if 'ssn' in session:
+        return redirect(url_for('main'))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/index', methods=['GET'])
+def main():
+    session_check('render_page')
+    return render_template('index.html')
 
 
 @app.route('/list/')
@@ -28,11 +36,10 @@ def posts():
 	return render_template('list.html')
 
 
-@app.route('/profile/', methods=['GET'])
+@app.route('/api/profile/', methods=['GET'])
 def profile():
 	session_check('render_page')
 	return user.get_profile()
-	# return render_template('profile.html', me=user.get_profile())
 
 
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -48,7 +55,7 @@ def login():
 	if request.method == 'POST':
 		return user.login()
 	if 'ssn' in session:
-		return redirect(url_for('profile'))
+		return redirect(url_for('index'))
 	else:
 		return render_template('login.html')
 

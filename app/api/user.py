@@ -70,4 +70,8 @@ def get_profile():
 	if other_ssn is None:
 		return jsonify(User.get_user_info(ssn))
 	else:
-		return jsonify(User.get_user_info(ssn, other_ssn))
+		other_user = User.get_user_info(ssn, other_ssn)
+		if other_user:
+			return jsonify(other_user)
+		else:
+			return ("Not found", 404)

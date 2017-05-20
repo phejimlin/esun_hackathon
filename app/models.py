@@ -129,7 +129,11 @@ class User(db.Model):
 		if other_ssn is None:
 			return row2dict(User.query.get(ssn))
 		else:
-			return row2dict(User.query.filter_by(ssn=other_ssn).first())
+			user = User.query.filter_by(ssn=other_ssn).first()
+			if user:
+				return row2dict(user)
+			else:
+				return None
 
 class Deal(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
