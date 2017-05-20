@@ -26,36 +26,44 @@ def create_feedback():
 
 def get_all_received_feedback():
 	ssn = session['ssn']
-	other_ssn = request.args.get('other_name')
+	other_name = request.args.get('name')
 	if other_name is None:
 		return jsonify(Feedback.get_all_received_feedback(ssn))
 	else:
-		comments = User.get_all_received_feedback(ssn, other_name)
-		if comments:
-			return jsonify(comments)
-		else:
-			return ("Not found", 404)
+		comments = Feedback.get_all_received_feedback(ssn, other_name)
+		if comments is None:
+			return("Not found", 404)
+		return jsonify(comments)
 
 def get_received_feedback_from_buyer():
 	ssn = session['ssn']
-	other_name = request.args.get('other_name')
+	other_name = request.args.get('name')
 	if other_name is None:
 		return jsonify(Feedback.get_received_feedback_from_buyer(ssn))
 	else:
-		comments = User.get_received_feedback_from_buyer(ssn, other_name)
-		if comments:
-			return jsonify(comments)
-		else:
-			return ("Not found", 404)
+		comments = Feedback.get_received_feedback_from_buyer(ssn, other_name)
+		if comments is None:
+			return("Not found", 404)
+		return jsonify(comments)
 
 def get_received_feedback_from_seller():
 	ssn = session['ssn']
-	other_name = request.args.get('other_name')
+	other_name = request.args.get('name')
 	if other_name is None:
 		return jsonify(Feedback.get_received_feedback_from_seller(ssn))
 	else:
-		comments = User.get_received_feedback_from_seller(ssn, other_name)
-		if comments:
-			return jsonify(comments)
-		else:
-			return ("Not found", 404)
+		comments = Feedback.get_received_feedback_from_seller(ssn, other_name)
+		if comments is None:
+			return("Not found", 404)
+		return jsonify(comments)
+
+def get_all_sent_feedback():
+	ssn = session['ssn']
+	other_name = request.args.get('name')
+	if other_name is None:
+		return jsonify(Feedback.get_all_sent_feedback(ssn))
+	else:
+		comments = Feedback.get_all_sent_feedback(ssn, other_name)
+		if comments is None:
+			return("Not found", 404)
+		return jsonify(comments)

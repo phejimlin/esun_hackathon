@@ -20,10 +20,10 @@
         <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #F5F5F5;">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index"><img src='../static/img/logo.png' width="160px;" style="margin-top: -10px;"></a>
+                    <a class="navbar-brand" href="index.html"><img src='../static/img/logo.png' width="160px;" style="margin-top: -10px;"></a>
                 </div>
                 <ul class="nav navbar-nav">
-                    <li><a href="blockchain" style="font-size: 20px; margin-top: 2pt;">Dashboard</a></li>
+                    <li><a href="blockchain.html" style="font-size: 20px; margin-top: 2pt;">Dashboard</a></li>
                 </ul>
                 <div style="float: right;">
                     <div class="form-group" style="float: right; margin-top: 8pt;width:300pt;padding-right: 20pt;">
@@ -36,7 +36,7 @@
             </div>
         </nav>
 
-        <div style="width: 90%;margin-left: 5%;background-color: #DDDDDD;float: left;padding-top: 100px;padding-bottom: 30pt;">
+        <div style="width: 90%;margin-left: 5%;background-color: #DDDDDD;float: left;padding-top: 100px;padding-bottom: 0pt;">
             <div class="col-md-12" style="padding: 15pt;">
                 <div style="width: 100%;border-bottom: solid 3pt orange;height: 28pt;">
                     <p style="width:80pt;height:28pt;background-color: orange;color: white;padding-top: 6pt;" align="center">Overview</p>
@@ -44,8 +44,9 @@
                 <div style="width: 100%;height: 28pt;background-color: #FFDDAA;">
                     <p style="color: orange;padding-top: 7pt;padding-left: 15pt;">information</p>
                 </div>
-                <div style="width: 100%;height: 430pt;border: solid 2pt #FFDDAA;background-color: white;">
+                <div style="width: 100%;min-height: 430pt;border: solid 2pt #FFDDAA;background-color: white;padding:10pt;padding-top:10pt;" class="info">
                     
+
                 </div>
             </div>
 
@@ -57,24 +58,39 @@
         </footer>
     </body>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/js/bootstrap.min.js"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
             loadall();   
         });
         function loadall(){
             data = getUrlVars()['v'];
+            $.ajax({
+                type:'GET',
+                dataType: 'json',
+                url: 'http://icrediable.japaneast.cloudapp.azure.com/api/blockchain/query?query='+data,
+                header:{"Access-Control-Allow-Origin":"*"},
+                success:function(response){
+                    result = response;
+                    if(result['type'] == 'block'){
+                        $('.info').append("<table id='ContentPlaceHolder1_maintable' class='table nav-justified' cellpadding='0' cellspacing='0'><tr><td width='190'>&nbsp;&nbsp;TimeStamp:</td><td>"+result['timestamp']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Transactions:</td><td>"+result['transactions']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Hash:</td><td>"+result['hash']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Parent Hash:</td><td><a href='#'>"+result['parentHash']+"</a></td></tr><tr><td width='190'>&nbsp;&nbsp;Sha3Uncles:</td><td>"+result['sha3Uncles']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Mined By:</td><td><a href='#'>"+result['miner']+"</a></td></tr><tr><td width='190'>&nbsp;&nbsp;Difficulty:</td><td>"+result['difficulty']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Size:</td><td>"+result['size']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Gas Limit:</td><td>"+result['gasLimit']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Gas Used:</td><td>"+result['gasUsed']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Nonce:</td><td>"+result['nonce']+"</td></tr><tr><td width='190'>&nbsp;&nbsp;Extra Data:</td><td>"+result['extraData']+"</td></tr></table>");
+                    }
+                    else{
+                        $('.info').append("<div style='margin-top: 10pt;' class='col-sm-3'>TxHash:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'>"+result['hash']+"</div><div style='margin-top: 10pt;' class='col-sm-3'>Block Height:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'><a href='#'>"+result['blockNumber']+"</a> (<span title='No of Blocks Mined Since'>5428 block confirmations</span>)</div><div style='margin-top: 10pt;' class='col-sm-3'>From:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'><a href='#'>"+result['from']+"</a></div><div style='margin-top: 10pt;' class='col-sm-3'>To:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'>Contract <a href='#'>"+result['to']+"</a> &nbsp;<font size='3' color='green'><i style='margin-top: 10pt;' class='fa fa-check-circle-o' rel='tooltip' data-placement='right' Title='Contract execution completed'></i></font></div><div style='margin-top: 10pt;' class='col-sm-3'>Value:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'><span title='The amount of ETH to be transferred to the recipient with the transaction'>"+result['value']+" Ether ($0.00)</span></div><div style='margin-top: 10pt;' class='col-sm-3'>Gas Price:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'><span title='The price offered to the miner to purchase this amount of GAS, per GAS.'>"+result['gasPrice']+" Ether</span></div><div style='margin-top: 10pt;' class='col-sm-3'>Cumulative Gas Used:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'><span title='The total amount of gas used when this transaction was executed in the block. If being used with a smart contact, this would show the total amount of gas that has been used to interact with it'>"+result['gas']+"</span></div><div style='margin-top: 10pt;' class='col-sm-3'>Nonce:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'><span title='The transaction nonce'>"+result['nonce']+"</span></div><div style='margin-top: 10pt;' class='col-sm-3'>Input Data:</div><div style='margin-top: 10pt;' class='col-sm-9 cbs'><span title='The binary data that formed the input to the transaction, either the input data if it was a message call or the contract initialisation if it was a contract creation'><textarea readonly spellcheck='false' style='width: 90%; font-size: small; font-family: Monospace; padding: 8px; background-color: #EEEEEE;margin-top: 10pt;' rows='4' id='inputdata'>"+result['input']+"</textarea>");
+                    }
+                },
+                error:function(a,error,t){
+                    console.log(a);
+                    console.log(error);
+                    console.log(t);
+                }
+            });
         }
         function getUrlVars()
         {
@@ -88,6 +104,14 @@
             }
             return vars;
         }
+    </script>
+    <script type="text/javascript">
+        $(".search").click(function(){
+            value = $('#input_v').val()
+            if(value != ""){
+                window.location.replace("blockchain_search/?v="+value);
+            }
+        });
     </script>
     
 </html>

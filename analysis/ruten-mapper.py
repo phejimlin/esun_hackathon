@@ -46,36 +46,6 @@ def display_scores(vectorizer, tfidf_result):
     return sorted_scores
 
 
-import tensorflow as tf
-sess = tf.Session()
-
-from keras import backend as K
-K.set_session(sess)
-
-''' Import keras to build a DL model '''
-from keras.models import Sequential
-from keras.layers.core import Dense, Activation, Dropout
-from keras import regularizers
-
-print('Building a model whose optimizer=adam, activation function=softplus')
-model_adam = Sequential()
-model_adam.add(Dense(128, input_dim=198, 
-    kernel_regularizer=regularizers.l2(0.01)))
-model_adam.add(Activation('relu'))
-model_adam.add(Dropout(0.5))
-model_adam.add(Dense(256))
-model_adam.add(Activation('softplus'))
-model_adam.add(Dense(1))
-model_adam.add(Activation('sigmoid'))
-
-''' Setting optimizer as Adam '''
-from keras.optimizers import SGD, Adam, RMSprop, Adagrad
-model_adam.compile(loss= 'mean_squared_error',
-                    optimizer='Adam',
-                    metrics=['accuracy'])
-
-model_adam.load_weights('best_mdl.hdf5')
-
 user_data = json.load(open('APIscore_from_ruten.json', 'r'))
 
 if __name__ == "__main__":
@@ -83,7 +53,6 @@ if __name__ == "__main__":
     dirs = os.listdir(folder_path)
 
 
-    corpus = list(np.load('top_n.npy'))
     comment_scores = []
     for doc in dirs:
         print(doc)
@@ -100,28 +69,19 @@ if __name__ == "__main__":
                         except:
                             continue
                         comment = item['content'][0]
+                        user = item['user']
+                        date = item['date']
                         if 'content' in comment:
                             soup = BeautifulSoup(comment['content'], "lxml")
                             comment_text = soup.getText()
                             length = len(comment_text)
                             if length > 13:
-                                word_list = list(jieba.cut(comment_text, cut_all=False))
-                                vec = []
-                                for word in corpus:
-                                    value = 1 if word in word_list else 0
-                                    vec.append(value)
-                                score = '%.2f' % float(model_adam.predict(np.array([vec]))[0])
                                 try:
-                                    user_data[seller]
+                                    user_data[seller]['review_contents'].append({'user':user, 'date': date, 'content': comment_text})
                                 except:
-                                    continue
-
-                                try:
-                                    user_data[seller]['review_ruten'].append(score)
-                                except:
-                                    user_data[seller]['review_ruten'] = [score]
+                                    user_data[seller]['review_contents'] = [{'user':user, 'date': date, 'content': comment_text}]
         #break
-with open('user_profile_ruten.json', 'w') as f:
+with open('user_profile_comments.json', 'w') as f:
     json.dump(user_data, f)
     
 

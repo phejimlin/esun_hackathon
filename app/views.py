@@ -59,14 +59,6 @@ def login():
 	else:
 		return render_template('login.html')
 
-@app.route('/blockchain/', methods=['GET'])
-def blockchain_explorer():
-	return render_template('blockchain.html')
-
-@app.route('/api/blockchain/query/', methods=['GET'])
-def blockchain_query():
-	return blockchain.query_block_chain()
-
 @app.route('/api/deal/', methods=['GET', 'POST'])
 def deal_api():
 	if request.method == 'POST':
@@ -75,7 +67,8 @@ def deal_api():
 @app.route('/api/feedback/<path:path>', methods=['GET', 'POST'])
 def feedback_api(path):
 	if request.method == 'POST':
-		return feedback.create_feedback();
+		if path == 'create':
+			return feedback.create_feedback();
 	elif request.method == 'GET':
 		if path == 'received_from_buyer':
 			return feedback.get_received_feedback_from_buyer()
@@ -83,13 +76,29 @@ def feedback_api(path):
 			return feedback.get_received_feedback_from_seller()
 		elif path == 'received_from_all':
 			return feedback.get_all_received_feedback()
+		elif path == 'sent':
+			return feedback.get_all_sent_feedback()
 
+
+@app.route('/blockchain/', methods=['GET'])
+def blockchain_overview():
+	return render_template('blockchain.html')
+
+@app.route('/blockchain_search/', methods=['GET'])
+def blockchain_explorer():
+    return render_template('blockchain_search.html')
 
 @app.route('/api/blockchain/<path:path>', methods=['GET', 'POST'])
 def blockchain_api(path):
 	if request.method == 'GET':
 		if path == 'blocks':
-			return blockchain.get_newest_20_blocks();
+			return blockchain.get_newest_20_blocks()
+		elif path == 'deals':
+			return blockchain.get_newest_20_deals()
+		elif path == 'feedbacks':
+			return blockchain.get_newest_20_feedbacks()
+		elif path == 'query':
+			return blockchain.query_block_chain()
 
 
 # === User login methods ===

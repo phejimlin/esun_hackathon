@@ -253,42 +253,71 @@ class Feedback(db.Model):
 
     @staticmethod
     def get_all_received_feedback(ssn, other_name = None):
-        # if not other_ssn:
-        return []
+        from_buyers = Feedback.get_received_feedback_from_buyer(ssn, other_name)
+        from_sellers = Feedback.get_received_feedback_from_seller(ssn, other_name)
+        mixed = from_buyers + from_sellers
+        return sorted(mixed, key=lambda x: x[4], reverse = True)
 
     @staticmethod
     def get_received_feedback_from_buyer(ssn, other_name = None):
         if not other_name:
-            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'))\
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'), Feedback.created_date.label('timestamp'))\
             .join(User, User.ssn==Feedback.from_user_id) \
             .join(Deal, Deal.id == Feedback.deal_id) \
             .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == False)) \
             .order_by(Feedback.created_date.desc()).limit(20).all()
             return feedbacks
         else:
-            other_ssn = User.query.filter_by(name=other_name).first().ssn
-            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'))\
+            other = User.query.filter_by(name=other_name).first()
+            if other is None:
+                return None
+            other_ssn = other.ssn
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'), Feedback.created_date.label('timestamp'))\
             .join(User, User.ssn==Feedback.from_user_id) \
             .join(Deal, Deal.id == Feedback.deal_id) \
-            .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == False)) \
+            .filter((Feedback.to_user_id == other_ssn) & (Feedback.from_is_seller == False)) \
             .order_by(Feedback.created_date.desc()).limit(20).all()
             return feedbacks
 
     @staticmethod
     def get_received_feedback_from_seller(ssn, other_name = None):
         if not other_name:
-            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'))\
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'), Feedback.created_date.label('timestamp'))\
             .join(User, User.ssn==Feedback.from_user_id) \
             .join(Deal, Deal.id == Feedback.deal_id) \
             .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == True)) \
             .order_by(Feedback.created_date.desc()).limit(20).all()
             return feedbacks
         else:
-            other_ssn = User.query.filter_by(name=other_name).first().ssn
-            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'))\
+            other = User.query.filter_by(name=other_name).first()
+            if other is None:
+                return None
+            other_ssn = other.ssn
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'), Feedback.created_date.label('timestamp'))\
             .join(User, User.ssn==Feedback.from_user_id) \
             .join(Deal, Deal.id == Feedback.deal_id) \
-            .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == True)) \
+            .filter((Feedback.to_user_id == other_ssn) & (Feedback.from_is_seller == True)) \
+            .order_by(Feedback.created_date.desc()).limit(20).all()
+            return feedbacks
+
+    @staticmethod
+    def get_all_sent_feedback(ssn, other_name = None):
+        if not other_name:
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'), Feedback.created_date.label('timestamp'))\
+            .join(User, User.ssn==Feedback.to_user_id) \
+            .join(Deal, Deal.id == Feedback.deal_id) \
+            .filter(Feedback.from_user_id == ssn) \
+            .order_by(Feedback.created_date.desc()).limit(20).all()
+            return feedbacks
+        else:
+            other = User.query.filter_by(name=other_name).first()
+            if other is None:
+                return None
+            other_ssn = other.ssn
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'), Feedback.created_date.label('timestamp'))\
+            .join(User, User.ssn==Feedback.to_user_id) \
+            .join(Deal, Deal.id == Feedback.deal_id) \
+            .filter(Feedback.from_user_id == other_ssn) \
             .order_by(Feedback.created_date.desc()).limit(20).all()
             return feedbacks
 
@@ -304,6 +333,24 @@ class Blockchain:
         for block_number in reversed(range(web3.eth.blockNumber-20, web3.eth.blockNumber)):
             blocks.append(web3.eth.getBlock(block_number))
         return blocks
+
+    @staticmethod
+    def get_newest_20_deals():
+        deal_filter = blockchain_contract.on("deal_created", {'fromBlock': web3.eth.blockNumber-10000, 'address': contract_address})
+        logs = deal_filter.get(only_changes=False)
+        for log in logs[:20]:
+            log['args']['_itemName'] = log['args']['_itemName'].encode('latin1').decode('utf8')
+
+        return logs[:20]
+
+    @staticmethod
+    def get_newest_20_feedbacks():
+        feedback_filter = blockchain_contract.on("feedback_sent", {'fromBlock': web3.eth.blockNumber-10000, 'address': contract_address})
+        logs = feedback_filter.get(only_changes=False)
+        for log in logs[:20]:
+            log['args']['_message'] = log['args']['_message'].encode('latin1').decode('utf8')
+
+        return logs[:20]
 
 
 
