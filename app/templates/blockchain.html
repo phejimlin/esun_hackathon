@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <!--
@@ -7,7 +7,7 @@
             Every email client is different. See exactly how your email looks in the most popular inboxes, so you can fix any problems before you hit send.
             https://www.emailonacid.com/
         -->
-
+        <meta http-equiv="Access-Control-Allow-Origin" content="http://icrediable.japaneast.cloudapp.azure.com" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         <title>Block Chain Explorer</title>
@@ -89,18 +89,13 @@
         </footer>
     </body>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/js/bootstrap.min.js"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
            loadall();
@@ -108,11 +103,11 @@
 
         function loadall(){
 
-            number = 85301;
-            for (var i = 0; i <= 10; i++) {
-                $('.blocks').append("<div style='width: 100%;height:70pt;padding: 5pt;padding-left: 8pt;font-family:Microsoft JhengHei;border-bottom: solid 1pt #DDDDDD;border-left: solid 1pt orange;'><div style='height: 100%;width: 90pt;float: left;background-color:  #888888;padding-top: 12pt;' align='center'><a href='#'><p style='color: white;'>Block<br>"+number+"</p></a></div><div style='height: 100%;float: left;padding-left: 8pt;padding-top: 10pt;'><p style='float: left;color:#0088A8;'>"+number+" txns</p><br><p style='float: left;'>Block Reward "+number+" Ether</p><br></div></div>"
-                    );
-            }
+            // number = 85301;
+            // for (var i = 0; i <= 10; i++) {
+            //     $('.blocks').append("<div style='width: 100%;height:70pt;padding: 5pt;padding-left: 8pt;font-family:Microsoft JhengHei;border-bottom: solid 1pt #DDDDDD;border-left: solid 1pt orange;'><div style='height: 100%;width: 90pt;float: left;background-color:  #888888;padding-top: 12pt;' align='center'><a href='#'><p style='color: white;'>Block<br>"+number+"</p></a></div><div style='height: 100%;float: left;padding-left: 8pt;padding-top: 10pt;'><p style='float: left;color:#0088A8;'>"+number+" txns</p><br><p style='float: left;'>Block Reward "+number+" Ether</p><br></div></div>"
+            //         );
+            // }
 
 
             blockHash = "0x9e89f44ba213df6aa4fa35578c09954b9e23bd9a97d3b34b10b53665c59ff311"
@@ -122,55 +117,30 @@
                 $('.transactions').append("<div style='width: 100%;height:70pt;padding: 5pt;padding-left: 8pt;font-family:Microsoft JhengHei;border-bottom: solid 1pt #DDDDDD;border-left: solid 1pt orange;'><div style='height: 100%;width: 20pt;float: left;padding-top: 12pt;' align='center'><img src='../static/img/transaction.png' style='width: 100%;'></div><div style='height: 100%;float: left;padding-left: 8pt;'>TX# <a href='#' class='ellipsis'><p>"+blockHash+"</p></a><br><p style='float: left;margin-top:10pt;'>From  <a href='#' class='addre'>"+from+"</a> To <a href='#' class='addre'>"+to+"</a></p><br><p style='float: left;text-overflow: ellipsis;' class='ellipsis'>Amount 0 Ether</p><br></div></div>"
                     );
             }
-            //alert(id);
+            
+
             $.ajax({
                 type:'GET',
-                url: 'http://140.114.77.15:'+currentURL.port+'/diary/api/v1/get?did='+id,
+                dataType: 'text/html',
+                url: '../api/blockchain/blocks',
+                header:{"Access-Control-Allow-Origin":"*"},
                 success:function(response){
-                    result = response
-                    
-                    var date = result[0]['diary']['date'];
-                    var title = result[0]['diary']['title'];
-                    var location = result[0]['diary']['location'];
-                    var content = result[0]['diary']['content'];
-                    var portrait = result[0]['owner']['portrait'];
-                    var name = result[0]['owner']['name'];
-                    //var lat = result[i]['diary']['latitude'];
-
-                    if(date==null){
-                        date='';
+                    result = response;
+                    console.log(result);
+                    for (var i = 0; i <= result.length; i++) {
+                        var number = result[i]['number'];
+                        var size = result[i]['size']
+                        $('.blocks').append("<div style='width: 100%;height:70pt;padding: 5pt;padding-left: 8pt;font-family:Microsoft JhengHei;border-bottom: solid 1pt #DDDDDD;border-left: solid 1pt orange;'><div style='height: 100%;width: 90pt;float: left;background-color:  #888888;padding-top: 12pt;' align='center'><a href='#'><p style='color: white;'>Block<br>"+number+"</p></a></div><div style='height: 100%;float: left;padding-left: 8pt;padding-top: 10pt;'><p style='float: left;color:#0088A8;'>"+size+" txns</p><br><p style='float: left;'></p><br></div></div>"
+                            );
                     }
-
-                    //alert(lat);
-                    $('#diary_title').append(title);
-                    $('#diary_date').append(date+' '+location);
-                    $('#diary_content').append(content);
-                    $('#author_img').attr("src",portrait);
-                    $('#author').append(name);
-                },   
-                error:function(error){
-                    console.log(error);
-                }
-            });  
-
-            $.ajax({
-                type:'GET',
-                url: 'http://140.114.77.15:'+currentURL.port+'/comment/api/v1/get?did='+id,
-                success:function(response){
-                    comment_res = response;
-                    for(var j=0; j<comment_res.length; j++){
-                        var comment_content = comment_res[j]['comment']['content'];
-                        var comment_date = comment_res[j]['comment']['date'];
-                        var comment_name = comment_res[j]['commentator']['name'];
-                        var comment_portrait  = comment_res[j]['commentator']['portrait'];
-
-                        $('#full_comment').append('<div class="comment_item"><div id="comment_info" class="col-xs-3"><img src="'+comment_portrait+'"/><div>'+comment_name+'</div><div>'+comment_date+'</div></div><div id="comment_content" class="col-xs-9"><p>'+comment_content+'</p></div><div class="clearfix"> </div></div>');
-                    } 
-                },   
+                },
                 error:function(error){
                     console.log(error);
                 }
             });
+ 
+            
+
         }
     </script>
     <script>
