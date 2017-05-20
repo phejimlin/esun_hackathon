@@ -25,7 +25,7 @@ function login(){
     success:function(response){
       console.log("Just login")
 
-      window.location = currentURL.origin + '/index.html';
+      window.location = currentURL.origin + '/index';
     },
     error:function(error){
       console.log(error);
