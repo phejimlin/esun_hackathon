@@ -27,3 +27,9 @@ def query_block_chain():
 			return jsonify(result)
 		else:
 			return ("Not found", 404)
+
+def get_newest_20_deals():
+	return jsonify(Blockchain.get_newest_20_deals())
+
+def get_newest_20_feedbacks():
+	return jsonify(Blockchain.get_newest_20_feedbacks())

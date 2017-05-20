@@ -299,6 +299,24 @@ class Blockchain:
             blocks.append(web3.eth.getBlock(block_number))
         return blocks
 
+    @staticmethod
+    def get_newest_20_deals():
+        deal_filter = blockchain_contract.on("deal_created", {'fromBlock': web3.eth.blockNumber-10000, 'address': contract_address})
+        logs = deal_filter.get(only_changes=False)
+        for log in logs[:20]:
+            log['args']['_itemName'] = log['args']['_itemName'].encode('latin1').decode('utf8')
+
+        return logs[:20]
+
+    @staticmethod
+    def get_newest_20_feedbacks():
+        feedback_filter = blockchain_contract.on("feedback_sent", {'fromBlock': web3.eth.blockNumber-10000, 'address': contract_address})
+        logs = feedback_filter.get(only_changes=False)
+        for log in logs[:20]:
+            log['args']['_message'] = log['args']['_message'].encode('latin1').decode('utf8')
+
+        return logs[:20]
+
 
 
 # Will be called everytime a deal is successfully created on blockchain
