@@ -32,9 +32,22 @@ function init_person(){
 
             $('#usr_name').append(name);
             $('#usr_email').append(email);
-            $('#credit_score').append(credit_score);
-            $("#usr_store a").attr("href", about_me);
 
+            if (credit_score <= 950 && credit_score > 850){
+                $('#credit_score').append(credit_score + '(高)');
+            }
+            else if (credit_score <= 850 && credit_score > 650){
+                $('#credit_score').append(credit_score + '(中高)');
+            }
+            else if (credit_score <= 650 && credit_score > 550){
+                $('#credit_score').append(credit_score + '(中)');
+            }
+            else if (credit_score <= 550 && credit_score > 450){
+                $('#credit_score').append(credit_score + '(低)');
+            }
+            else{
+                $('#credit_score').append(credit_score + '(低)');
+            }
 
 
             var ctx = $("#myChart");
@@ -104,22 +117,25 @@ function init_person(){
                 options: options_emo
             });
 
+            setTimeout("init_comments()", 6000);
         },
         error:function(error){
             console.log(error);
         }
     });
-
+    
 
 }
-
 function init_comments(){
+    $('#table1').append('<tr><td>5</td><td>somthing</td><td>toby</td><td>gooooooooooooood!!!!!!!</td></tr><tr><td>5</td><td>somthing</td><td>toby</td><td>gooooooooooooood!!!!!!!</td></tr>');
+
+
     $.ajax({
         type:'GET',
-        url: currentURL.origin + '/api/feedback/received_from_all',
+        url: currentURL.origin + '/api/feedback/sent',
         success:function(response){
-            result = response;
-            console.log(result);
+            result1 = response;
+            console.log(result1);
 
         },
         error:function(error){
@@ -127,7 +143,6 @@ function init_comments(){
         }
     });
 }
-
 
 function search_submit(){
     var search_query = document.getElementById("input_v").value;
