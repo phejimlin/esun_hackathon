@@ -24,10 +24,10 @@ class User(db.Model):
 	# personalInfo
 	ssn = db.Column(db.String(64), primary_key=True)
 	password = db.Column(db.String(500))
-	name = db.Column(db.String(500))
-	email = db.Column(db.String(120), unique=True)
+	name = db.Column(db.String(500), unique=True)
+	email = db.Column(db.String(120))
 	# blockchain
-	credit = db.Column(db.Integer)
+	credit_score = db.Column(db.Integer)
 	eth_address = db.Column(db.String(50))
 	eth_password = db.Column(db.String(500))
 	# esun
@@ -49,13 +49,31 @@ class User(db.Model):
 	debt = db.Column(db.String(1))
 	delinquent = db.Column(db.String(1))
 	ever_in_use = db.Column(db.String(1))
+	#  model
+	about_me = db.Column(db.Text)
+	emo = db.Column(db.Float)
+	peo = db.Column(db.Float)
+	sn = db.Column(db.Float)
+	risk = db.Column(db.Float)
+	idt = db.Column(db.Float)
+
+	emo_freq_sad = db.Column(db.Float)
+	emo_freq_haha = db.Column(db.Float)
+	emo_freq_wow = db.Column(db.Float)
+	emo_freq_angry = db.Column(db.Float)
+	emo_freq_love = db.Column(db.Float)
+
+	good_comment = db.Column(db.Integer)
+	comment = db.Column(db.Integer)
+	total_comment = db.Column(db.Integer)
 
 
 	def __init__(
 		self, ssn, password, name, email,
 		eth_address, eth_password,
 		education_level, occupation, age, annual_income, employment_year, resident_status, credit_card_status, limit_amount,
-		pre_owned_status, revolving_count, revolving_amount, debt_status, mortgage, debt_amount, balance_amount, debt, delinquent, ever_in_use
+		pre_owned_status, revolving_count, revolving_amount, debt_status, mortgage, debt_amount, balance_amount, debt, delinquent, ever_in_use,
+		about_me, emo, peo, sn, risk, idt, emo_freq_sad, emo_freq_haha, emo_freq_wow, emo_freq_angry, emo_freq_love, good_comment, comment, total_comment
 	):
 		self.ssn = ssn
 		self.password = password
@@ -83,6 +101,23 @@ class User(db.Model):
 		self.delinquent = delinquent
 		self.ever_in_use = ever_in_use
 
+		self.about_me = about_me
+		self.emo = emo
+		self.peo = peo
+		self.sn = sn
+		self.risk = risk
+		self.idt = idt
+
+		self.emo_freq_sad = emo_freq_sad
+		self.emo_freq_haha = emo_freq_haha
+		self.emo_freq_wow = emo_freq_wow
+		self.emo_freq_angry = emo_freq_angry
+		self.emo_freq_love = emo_freq_love
+
+		self.good_comment = good_comment
+		self.comment = comment
+		self.total_comment = total_comment
+
 
 	def is_authenticated(self):
 		return True
@@ -103,7 +138,7 @@ class User(db.Model):
 	def register(
 		ssn, password, name, email,
 		education_level, occupation, age, annual_income, employment_year, resident_status, credit_card_status, limit_amount,
-		pre_owned_status, revolving_count, revolving_amount, debt_status, mortgage, debt_amount, balance_amount, debt, delinquent, ever_in_use
+		pre_owned_status, revolving_count, revolving_amount, debt_status, mortgage, debt_amount, balance_amount, debt, delinquent, ever_in_use,
 	):
 		user = User.query.get(ssn)
 		if not user:
@@ -188,7 +223,7 @@ class Feedback(db.Model):
     message = db.Column(db.Text)
     from_is_seller = db.Column(db.Boolean)
     created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    from_user_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
+    # from_user_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
     # from_who = db.relationship('User', foreign_keys=[from_user_id])
     to_user_id = db.Column(db.String(64), db.ForeignKey('user.ssn'))
     # to_who = db.relationship('User', foreign_keys=[to_user_id])
