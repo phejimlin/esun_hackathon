@@ -14,6 +14,7 @@ def query_block_chain():
 		result = web3.eth.getTransaction(query)
 		print(result)
 		if result:
+			result['type'] = 'transaction'
 			return jsonify(result)
 		else:
 			return ("Not found", 404)
@@ -22,6 +23,7 @@ def query_block_chain():
 		result = web3.eth.getBlock(int(query))
 		print(result)
 		if result:
+			result['type'] = 'block'
 			return jsonify(result)
 		else:
 			return ("Not found", 404)
