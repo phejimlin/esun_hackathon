@@ -205,6 +205,7 @@ class Feedback(db.Model):
         # self.to_who = to_who
         self.to_user_id = to_who_id
 
+    @staticmethod
     def create_feedback(deal_id, score, message, from_user_id, to_user_id):
         from_user = User.query.get(from_user_id)
         to_user_id = User.query.get(to_user_id).eth_address
@@ -215,6 +216,47 @@ class Feedback(db.Model):
         # print(tx_hash)
         return tx_hash
 
+    @staticmethod
+    def get_all_received_feedback(ssn, other_name = None):
+        # if not other_ssn:
+        return []
+
+    @staticmethod
+    def get_received_feedback_from_buyer(ssn, other_name = None):
+        if not other_name:
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'))\
+            .join(User, User.ssn==Feedback.from_user_id) \
+            .join(Deal, Deal.id == Feedback.deal_id) \
+            .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == False)) \
+            .order_by(Feedback.created_date.desc()).limit(20).all()
+            return feedbacks
+        else:
+            other_ssn = User.query.filter_by(name=other_name).first().ssn
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'))\
+            .join(User, User.ssn==Feedback.from_user_id) \
+            .join(Deal, Deal.id == Feedback.deal_id) \
+            .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == False)) \
+            .order_by(Feedback.created_date.desc()).limit(20).all()
+            return feedbacks
+
+    @staticmethod
+    def get_received_feedback_from_seller(ssn, other_name = None):
+        if not other_name:
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'))\
+            .join(User, User.ssn==Feedback.from_user_id) \
+            .join(Deal, Deal.id == Feedback.deal_id) \
+            .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == True)) \
+            .order_by(Feedback.created_date.desc()).limit(20).all()
+            return feedbacks
+        else:
+            other_ssn = User.query.filter_by(name=other_name).first().ssn
+            feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'))\
+            .join(User, User.ssn==Feedback.from_user_id) \
+            .join(Deal, Deal.id == Feedback.deal_id) \
+            .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == True)) \
+            .order_by(Feedback.created_date.desc()).limit(20).all()
+            return feedbacks
+
 
     def __repr__(self):
         return '<Feedback %r>' % (self.message)
@@ -224,7 +266,7 @@ class Blockchain:
     @staticmethod
     def get_newest_20_blocks():
         blocks = []
-        for block_number in reversed(range(web3.eth.blockNumber-19, web3.eth.blockNumber)):
+        for block_number in reversed(range(web3.eth.blockNumber-20, web3.eth.blockNumber)):
             blocks.append(web3.eth.getBlock(block_number))
         return blocks
 
