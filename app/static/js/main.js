@@ -1,11 +1,11 @@
 var currentURL = window.location;
 function init_person(){
-    var queryName = getParameterByName('other_ssn', currentURL.href)
+    var queryName = getParameterByName('name', currentURL.href)
     var url = currentURL.origin + '/api/profile'
 
     // For query other people!
     if (queryName) {
-        url += '?other_ssn='+queryName
+        url += '?name='+queryName
     }
 
 	$.ajax({
@@ -33,8 +33,8 @@ function init_person(){
 
 function search_submit(){
     var search_query = document.getElementById("input_v").value;
-    var redirectUrl = currentURL.origin + '/index?other_ssn=' +search_query
-    var url = currentURL.origin + '/api/profile?other_ssn=' +search_query
+    var redirectUrl = currentURL.origin + '/index?name=' +search_query
+    var url = currentURL.origin + '/api/profile?name=' +search_query
     $.ajax({
         type:'GET',
         url: url,

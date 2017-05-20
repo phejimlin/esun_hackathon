@@ -135,11 +135,11 @@ class User(db.Model):
 			return False
 
 	@staticmethod
-	def get_user_info(ssn, other_ssn=None):
-		if other_ssn is None:
+	def get_user_info(ssn, other_name=None):
+		if other_name is None:
 			return row2dict(User.query.get(ssn))
 		else:
-			user = User.query.filter_by(ssn=other_ssn).first()
+			user = User.query.filter_by(name=other_name).first()
 			if user:
 				return row2dict(user)
 			else:

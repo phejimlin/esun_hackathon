@@ -14,9 +14,9 @@ from .api import user, deal, feedback, blockchain
 from flask.json import jsonify
 
 # serving static file such as js css.
-@app.route('/<path:filename>')
+@app.route('/static/<path:filename>')
 def send_static(filename):
-    return send_from_directory('templates', filename)
+    return send_from_directory('static', filename)
 
 @app.route('/')
 def index():
@@ -58,6 +58,10 @@ def login():
 		return redirect(url_for('index'))
 	else:
 		return render_template('login.html')
+
+@app.route('/blockchain/', methods=['GET'])
+def blockchain():
+	return render_template('blockchain.html')
 
 @app.route('/api/deal/', methods=['GET', 'POST'])
 def deal_api():

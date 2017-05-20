@@ -66,7 +66,7 @@ def login():
 
 def get_profile():
 	ssn = session['ssn']
-	other_ssn = request.args.get('other_ssn')
+	other_ssn = request.args.get('name')
 	if other_ssn is None:
 		return jsonify(User.get_user_info(ssn))
 	else:
