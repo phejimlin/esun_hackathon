@@ -63,6 +63,10 @@ def login():
 def blockchain_explorer():
 	return render_template('blockchain.html')
 
+@app.route('/api/blockchain/query/', methods=['GET'])
+def blockchain_query():
+	return blockchain.query_block_chain()
+
 @app.route('/api/deal/', methods=['GET', 'POST'])
 def deal_api():
 	if request.method == 'POST':

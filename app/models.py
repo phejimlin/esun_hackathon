@@ -9,6 +9,7 @@ import datetime
 import uuid
 from web3 import Web3, KeepAliveRPCProvider, IPCProvider
 from sqlalchemy.orm import scoped_session, sessionmaker
+
 web3 = Web3(KeepAliveRPCProvider(host='idea2f2p4.eastasia.cloudapp.azure.com', port='8545'))
 contract_address = '0x718ed7ff43f863af2ec7c4ca51baaab1f60f19aa'
 master_address = web3.eth.coinbase
