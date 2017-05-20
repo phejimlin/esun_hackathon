@@ -13,7 +13,9 @@ html, body{
 	margin-bottom: 100px;
 }
 .info{
-  font-size: 24px;
+  font-size: 16px;
+  word-wrap: break-word;
+  margin: 10px 20px;
 }
 
 a {
