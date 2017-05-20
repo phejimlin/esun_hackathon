@@ -26,7 +26,7 @@ function login(){
       console.log("Just login")
 
       var currentURL = window.location;
-      window.location = "http://140.114.77.15:"+currentURL.port+"/index";
+      window.location = "http://idea.cs.nthu.edu.tw/~eunice/test/app/templates/index.html";
     },
     error:function(error){
       console.log(error);

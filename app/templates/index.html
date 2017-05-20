@@ -14,7 +14,7 @@
     <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #F5F5F5;">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html"><img src='../static/img/logo.png' width="140px;" style="margin-top: -10px;"></a>
+                <a class="navbar-brand" href="index.html"><img src='../static/img/logo.png' width="120px;" style="margin-top: -10px;"></a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="#">Page 1</a></li>
@@ -23,15 +23,15 @@
             </ul>
         </div>
     </nav>
-    
+
     <div class="container">
         <!--<hr style='border: 1px solid #009d98;'>-->
         <div class="main_info">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="personal_info">
-                        <div class="col-md-6">
-                            <img src="../static/img/avatar.png" style="width: 180px; margin-left: 20px;">
+                    <div class="personal_info" style="margin: 0 auto;">
+                        <div class="col-md-6" >
+                            <img src="../static/img/user.png" style="width: 180px; margin-left: 20px;">
                         </div>
                         <div class="col-md-6">
                             <h4 id="usr_name">Name</h4>
@@ -39,43 +39,125 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    
+                <div class="col-md-6" style="border-left: 3px solid #bbb;">
+                    <div style="width: 65%; margin: 0 auto">
+                        <canvas id="myChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="tab_container">
             <input id="tab1" type="radio" name="tabs" checked>
-            <label for="tab1"><i class="fa fa-code"></i><span>Code</span></label>
+            <label for="tab1"><i class="fa fa-code"></i><span>All Comments</span></label>
 
             <input id="tab2" type="radio" name="tabs">
-            <label for="tab2"><i class="fa fa-pencil-square-o"></i><span>About</span></label>
+            <label for="tab2"><i class="fa fa-pencil-square-o"></i><span>Comments from Buyers</span></label>
 
             <input id="tab3" type="radio" name="tabs">
-            <label for="tab3"><i class="fa fa-bar-chart-o"></i><span>Services</span></label>
+            <label for="tab3"><i class="fa fa-bar-chart-o"></i><span>Comments from Sellers</span></label>
 
             <input id="tab4" type="radio" name="tabs">
-            <label for="tab4"><i class="fa fa-folder-open-o"></i><span>Portfolio</span></label>
+            <label for="tab4"><i class="fa fa-folder-open-o"></i><span>Comments to Others</span></label>
 
 
             <section id="content1" class="tab-content">
-                <h3>Headline 1</h3>
-                <p>Tab 1 Content.</p>
+                <table class="TB_COLLAPSE">
+                    <thead>
+                        <tr>
+                            <th>Score</th>
+                            <th>Item</th>
+                            <th>Name</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>5</td>
+                        <td>somthing</td>
+                        <td>toby</td>
+                        <td>gooooooooooooood!!!!!!!</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>somthing</td>
+                        <td>toby</td>
+                        <td>gooooooooooooood!!!!!!!</td>
+                    </tr>
+                </table>
             </section>
 
             <section id="content2" class="tab-content">
-                <h3>Headline 2</h3>
-                <p>Tab 2 content.</p>
+                <table class="TB_COLLAPSE">
+                    <thead>
+                        <tr>
+                            <th>Score</th>
+                            <th>Item</th>
+                            <th>Name</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>5</td>
+                        <td>somthing</td>
+                        <td>toby</td>
+                        <td>gooooooooooooood!!!!!!!</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>somthing</td>
+                        <td>toby</td>
+                        <td>gooooooooooooood!!!!!!!</td>
+                    </tr>
+                </table>
             </section>
 
             <section id="content3" class="tab-content">
-                <h3>Headline 3</h3>
-                <p>Tab 3 content</p>
+                <table class="TB_COLLAPSE">
+                    <thead>
+                        <tr>
+                            <th>Score</th>
+                            <th>Item</th>
+                            <th>Name</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>5</td>
+                        <td>somthing</td>
+                        <td>toby</td>
+                        <td>gooooooooooooood!!!!!!!</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>somthing</td>
+                        <td>toby</td>
+                        <td>gooooooooooooood!!!!!!!</td>
+                    </tr>
+                </table>
             </section>
 
             <section id="content4" class="tab-content">
-                <h3>Headline 4</h3>
-                <p>tab 4 Content</p>
+                <table class="TB_COLLAPSE">
+                    <thead>
+                        <tr>
+                            <th>Score</th>
+                            <th>Item</th>
+                            <th>Name</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>5</td>
+                        <td>somthing</td>
+                        <td>toby</td>
+                        <td>gooooooooooooood!!!!!!!</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>somthing</td>
+                        <td>toby</td>
+                        <td>gooooooooooooood!!!!!!!</td>
+                    </tr>
+                </table>
             </section>
         </div>
     </div>
@@ -88,4 +170,12 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="../static/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../static/js/login.js"></script>
+<script type="text/javascript" src="../static/js/Chart.js"></script>
+<script type="text/javascript" src="../static/js/load_chart.js"></script>
+<script type="text/javascript" src="../static/js/main.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    init_person();
+});
+</script>
 </html>
