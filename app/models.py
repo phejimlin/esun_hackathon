@@ -262,8 +262,8 @@ class Feedback(db.Model):
     def get_received_feedback_from_buyer(ssn, other_name = None):
         if not other_name:
             feedbacks = db.session.query(Feedback.score.label('score'), Deal.item_name.label('item_name'), User.name.label('user_name'), Feedback.message.label('message'), Feedback.created_date.label('timestamp'))\
-            .join(User, User.ssn==Feedback.from_user_id) \
             .join(Deal, Deal.id == Feedback.deal_id) \
+            .join(User, User.ssn==Feedback.from_user_id) \
             .filter((Feedback.to_user_id == ssn) & (Feedback.from_is_seller == False)) \
             .order_by(Feedback.created_date.desc()).limit(20).all()
             return feedbacks
