@@ -218,6 +218,17 @@ class Feedback(db.Model):
     def __repr__(self):
         return '<Feedback %r>' % (self.message)
 
+class Blockchain:
+
+    @staticmethod
+    def get_newest_20_blocks():
+        blocks = []
+        for block_number in reversed(range(web3.eth.blockNumber-19, web3.eth.blockNumber)):
+            blocks.append(web3.eth.getBlock(block_number))
+        return blocks
+
+
+
 # Will be called everytime a deal is successfully created on blockchain
 def deal_created_callback(event):
     deal_id = event['args']['_dealID']
