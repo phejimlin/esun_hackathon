@@ -399,7 +399,9 @@ def feedback_sent_callback(event):
     sender_id = User.query.filter_by(eth_address=sender_addr).first().ssn
     receiver_id = User.query.filter_by(eth_address=receiver_addr).first().ssn
     deal = Deal.query.get(deal_id)
-
+    check_feedback = Feedback.query.filter_by(deal_id = deal_id, from_user_id = sender_addr).first()
+    if check_feedback is not None:
+        return
     from_is_seller = False
     if deal.seller_id == sender_id:
         from_is_seller = True
