@@ -122,7 +122,7 @@
             $.ajax({
                 type:'GET',
                 dataType: 'text/html',
-                url: '../api/blockchain/blocks',
+                url: 'http://icrediable.japaneast.cloudapp.azure.com/api/blockchain/blocks',
                 header:{"Access-Control-Allow-Origin":"*"},
                 success:function(response){
                     result = response;
@@ -134,8 +134,10 @@
                             );
                     }
                 },
-                error:function(error){
+                error:function(a,error,t){
+                    console.log(a);
                     console.log(error);
+                    console.log(t);
                 }
             });
  
