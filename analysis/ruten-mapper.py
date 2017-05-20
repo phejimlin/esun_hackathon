@@ -76,7 +76,7 @@ model_adam.compile(loss= 'mean_squared_error',
 
 model_adam.load_weights('best_mdl.hdf5')
 
-user_data = json.load('APIscore_from_ruten.json')
+user_data = json.load(open('APIscore_from_ruten.json', 'r'))
 
 if __name__ == "__main__":
     folder_path = 'ruten_comments/'
@@ -99,7 +99,7 @@ if __name__ == "__main__":
                             score_type = item['point']
                         except:
                             continue
-                            comment = item['content'][0]
+                        comment = item['content'][0]
                         if 'content' in comment:
                             soup = BeautifulSoup(comment['content'], "lxml")
                             comment_text = soup.getText()
@@ -110,7 +110,7 @@ if __name__ == "__main__":
                                 for word in corpus:
                                     value = 1 if word in word_list else 0
                                     vec.append(value)
-                                score = '%.2f' % float(model_adam.pred([vec])[0])
+                                score = '%.2f' % float(model_adam.predict(np.array([vec]))[0])
                                 try:
                                     user_data[seller]
                                 except:
@@ -120,7 +120,7 @@ if __name__ == "__main__":
                                     user_data[seller]['review_ruten'].append(score)
                                 except:
                                     user_data[seller]['review_ruten'] = [score]
-
+        #break
 with open('user_profile_ruten.json', 'w') as f:
     json.dump(user_data, f)
     
