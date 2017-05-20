@@ -59,18 +59,6 @@ def login():
 	else:
 		return render_template('login.html')
 
-@app.route('/blockchain/', methods=['GET'])
-def blockchain_explorer():
-	return render_template('blockchain.html')
-
-@app.route('/blockchain_search/', methods=['GET'])
-def blockchain_explorer():
-    return render_template('blockchain_search.html')
-
-@app.route('/api/blockchain/query/', methods=['GET'])
-def blockchain_query():
-	return blockchain.query_block_chain()
-
 @app.route('/api/deal/', methods=['GET', 'POST'])
 def deal_api():
 	if request.method == 'POST':
@@ -92,15 +80,25 @@ def feedback_api(path):
 			return feedback.get_all_sent_feedback()
 
 
+@app.route('/blockchain/', methods=['GET'])
+def blockchain_overview():
+	return render_template('blockchain.html')
+
+@app.route('/blockchain_search/', methods=['GET'])
+def blockchain_explorer():
+    return render_template('blockchain_search.html')
+
 @app.route('/api/blockchain/<path:path>', methods=['GET', 'POST'])
 def blockchain_api(path):
 	if request.method == 'GET':
 		if path == 'blocks':
 			return blockchain.get_newest_20_blocks()
-		if path == 'deals':
+		elif path == 'deals':
 			return blockchain.get_newest_20_deals()
-		if path == 'feedbacks':
+		elif path == 'feedbacks':
 			return blockchain.get_newest_20_feedbacks()
+		elif path == 'query':
+			return blockchain.query_block_chain()
 
 
 # === User login methods ===
