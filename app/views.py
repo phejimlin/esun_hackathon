@@ -75,7 +75,8 @@ def deal_api():
 @app.route('/api/feedback/<path:path>', methods=['GET', 'POST'])
 def feedback_api(path):
 	if request.method == 'POST':
-		return feedback.create_feedback();
+		if path == 'create':
+			return feedback.create_feedback();
 	elif request.method == 'GET':
 		if path == 'received_from_buyer':
 			return feedback.get_received_feedback_from_buyer()
@@ -83,6 +84,8 @@ def feedback_api(path):
 			return feedback.get_received_feedback_from_seller()
 		elif path == 'received_from_all':
 			return feedback.get_all_received_feedback()
+		elif path == 'sent':
+			return feedback.get_all_sent_feedback()
 
 
 @app.route('/api/blockchain/<path:path>', methods=['GET', 'POST'])
