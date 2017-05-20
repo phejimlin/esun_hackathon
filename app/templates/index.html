@@ -34,20 +34,22 @@
         <!--<hr style='border: 1px solid #009d98;'>-->
         <div class="main_info">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="personal_info" style="margin: 0 auto;">
-                        <div class="col-md-6" >
-                            <img src="../static/img/user.png" style="width: 180px; margin-left: 20px;">
-                        </div>
-                        <div class="col-md-6">
-                            <h4 id="usr_name" class="info"></h4>
-                            <h4 id="usr_email" class="info"></h4>
-                        </div>
+                <div class="col-md-4">
+                    <div class="personal_info" style="margin: 0 auto;">  
+                        <img src="../static/img/user.png" style="width: 180px; margin-left: 20px; margin-bottom: 20px ">
+                        <div id="usr_name" class="info"></div>
+                        <div id="usr_email" class="info"></div>
+                        <div id="credit_score" class="info">信用點數：</div>
                     </div>
                 </div>
-                <div class="col-md-6" style="border-left: 3px solid #bbb;">
-                    <div style="width: 65%; margin: 0 auto">
-                        <canvas id="myChart"></canvas>
+                <div class="col-md-8">
+                    <div style="width: 90%; margin: 0 auto">
+                        <div class="col-md-6">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="myEmotion"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -177,11 +179,11 @@
 <script src="../static/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../static/js/login.js"></script>
 <script type="text/javascript" src="../static/js/Chart.js"></script>
-<script type="text/javascript" src="../static/js/load_chart.js"></script>
 <script type="text/javascript" src="../static/js/main.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     init_person();
+    init_comments();
 });
 </script>
 </html>
