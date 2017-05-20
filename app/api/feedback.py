@@ -23,3 +23,39 @@ def create_feedback():
 			return ("Feedback is sent to blockchain, transaction hash: " + tx_hash, 200)
 		else:
 			return ("Failed to add feedback", 400)
+
+def get_all_received_feedback():
+	ssn = session['ssn']
+	other_ssn = request.args.get('other_name')
+	if other_name is None:
+		return jsonify(Feedback.get_all_received_feedback(ssn))
+	else:
+		comments = User.get_all_received_feedback(ssn, other_name)
+		if comments:
+			return jsonify(comments)
+		else:
+			return ("Not found", 404)
+
+def get_received_feedback_from_buyer():
+	ssn = session['ssn']
+	other_name = request.args.get('other_name')
+	if other_name is None:
+		return jsonify(Feedback.get_received_feedback_from_buyer(ssn))
+	else:
+		comments = User.get_received_feedback_from_buyer(ssn, other_name)
+		if comments:
+			return jsonify(comments)
+		else:
+			return ("Not found", 404)
+
+def get_received_feedback_from_seller():
+	ssn = session['ssn']
+	other_name = request.args.get('other_name')
+	if other_name is None:
+		return jsonify(Feedback.get_received_feedback_from_seller(ssn))
+	else:
+		comments = User.get_received_feedback_from_seller(ssn, other_name)
+		if comments:
+			return jsonify(comments)
+		else:
+			return ("Not found", 404)
