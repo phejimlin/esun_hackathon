@@ -12,3 +12,25 @@ function init_person(){
         }
     });
 }
+
+
+
+
+
+function search_submit(){
+    var search_query = document.getElementById("input_v").value;
+    console.log(search_query);
+    console.log(currentURL);
+    $.ajax({
+        type:'GET',
+        url: currentURL.origin + '/api/profile?other_ssn=' +search_query,
+        success:function(response){
+            result = response;
+            console.log(response);
+            alert(result);
+        },
+        error:function(error){
+            console.log(error);
+        }
+    });
+}
