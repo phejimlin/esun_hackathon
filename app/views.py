@@ -63,6 +63,10 @@ def login():
 def blockchain_explorer():
 	return render_template('blockchain.html')
 
+@app.route('/blockchain_search/', methods=['GET'])
+def blockchain_explorer():
+    return render_template('blockchain_search.html')
+
 @app.route('/api/blockchain/query/', methods=['GET'])
 def blockchain_query():
 	return blockchain.query_block_chain()
