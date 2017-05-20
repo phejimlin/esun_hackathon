@@ -123,7 +123,17 @@ class User(db.Model):
 			return True
 		else:
 			return False
-		
+
+	@staticmethod
+	def get_user_info(ssn, other_ssn=None):
+		if other_ssn is None:
+			return row2dict(User.query.get(ssn))
+		else:
+			user = User.query.filter_by(ssn=other_ssn).first()
+			if user:
+				return row2dict(user)
+			else:
+				return None
 
 class Deal(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
@@ -177,3 +187,9 @@ class Feedback(db.Model):
 
 	def __repr__(self):
 		return '<Feedback %r>' % (self.message)
+
+def row2dict(row):
+	d = {}
+	for column in row.__table__.columns:
+		d[column.name] = str(getattr(row, column.name))
+	return d

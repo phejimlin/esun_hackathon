@@ -20,7 +20,15 @@ def send_static(filename):
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+    if 'ssn' in session:
+        return redirect(url_for('main'))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/index', methods=['GET'])
+def main():
+    session_check('render_page')
+    return render_template('index.html')
 
 
 @app.route('/list/')
@@ -28,9 +36,10 @@ def posts():
 	return render_template('list.html')
 
 
-@app.route('/profile/', methods=['GET'])
+@app.route('/api/profile/', methods=['GET'])
 def profile():
-	return render_template('profile.html')
+	session_check('render_page')
+	return user.get_profile()
 
 
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -46,7 +55,7 @@ def login():
 	if request.method == 'POST':
 		return user.login()
 	if 'ssn' in session:
-		return redirect(url_for('profile'))
+		return redirect(url_for('index'))
 	else:
 		return render_template('login.html')
 
@@ -75,3 +84,13 @@ def handle_invalid_usage(error):
 		response = jsonify(error.to_dict())
 		response.status_code = error.status_code
 		return response
+
+
+def session_check(request_type):
+    # request_type only will be api or render_page.
+    if request_type == 'api':
+        if 'ssn' not in session:
+            raise InvalidUsage("unauthorized", 401)
+    elif request_type == 'render_page':
+        if 'ssn' not in session:
+            raise InvalidUsage(None, None, None, "redirectToLoginPage")

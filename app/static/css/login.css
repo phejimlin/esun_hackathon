@@ -46,6 +46,20 @@ footer{
 .register{
 	margin-top: 20px;
 }
+.wrapper-dropdown{
+    position: relative;
+    width: 207px;
+    padding: 8px 6px 8px 4px;
+    margin: 0 auto;
+    background: #ffffff;
+    color: #999;
+    outline: none;
+    cursor: pointer;
+}
+.wrapper-dropdown option{
+	background: #9bc7de;
+	color: #fff;
+}
 
 @media (max-width: 874px){
 	main{
