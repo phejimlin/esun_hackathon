@@ -96,7 +96,11 @@ def feedback_api(path):
 def blockchain_api(path):
 	if request.method == 'GET':
 		if path == 'blocks':
-			return blockchain.get_newest_20_blocks();
+			return blockchain.get_newest_20_blocks()
+		if path == 'deals':
+			return blockchain.get_newest_20_deals()
+		if path == 'feedbacks':
+			return blockchain.get_newest_20_feedbacks()
 
 
 # === User login methods ===
