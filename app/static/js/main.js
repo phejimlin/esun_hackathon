@@ -134,9 +134,11 @@ function init_comments(){
         type:'GET',
         url: currentURL.origin + '/api/feedback/sent',
         success:function(response){
-            result1 = response;
+            result1 = response[0];
             console.log(result1);
-
+            for (var i=0;i<=result1.length;i++){
+                 $('#table4').append('<tr><td>'+result1[0] +'</td><td>'+result1[1]+'</td><td>'+result1[2]+'</td><td>'+result1[3] +'</td></tr>');
+            }
         },
         error:function(error){
             console.log(error);
