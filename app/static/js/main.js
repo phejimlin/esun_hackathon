@@ -127,18 +127,82 @@ function init_person(){
 
 }
 function init_comments(){
-    $('#table1').append('<tr><td>5</td><td>somthing</td><td>toby</td><td>gooooooooooooood!!!!!!!</td></tr><tr><td>5</td><td>somthing</td><td>toby</td><td>gooooooooooooood!!!!!!!</td></tr>');
 
+    $.ajax({
+        type:'GET',
+        url: currentURL.origin + '/api/feedback/received_from_all',
+        success:function(response){
+            result1 = response;
+            for (var element in result1){
+                var score = element[0];
+                var item = element[1];
+                var name = element[2];
+                var msg = element[3];
+
+                $('#table1').append('<tr><td>'+score+'</td><td>'+item+'</td><td>'+name+'</td><td>'+msg+'</td></tr>');
+            }
+
+        },
+        error:function(error){
+            console.log(error);
+        }
+    });
+
+
+    $.ajax({
+        type:'GET',
+        url: currentURL.origin + '/api/feedback/received_from_buyer',
+        success:function(response){
+            result2 = response;
+            for (var element in result1){
+                var score = element[0];
+                var item = element[1];
+                var name = element[2];
+                var msg = element[3];
+
+                $('#table2').append('<tr><td>'+score+'</td><td>'+item+'</td><td>'+name+'</td><td>'+msg+'</td></tr>');
+            }
+
+        },
+        error:function(error){
+            console.log(error);
+        }
+    });
+
+    $.ajax({
+        type:'GET',
+        url: currentURL.origin + '/api/feedback/received_from_seller',
+        success:function(response){
+            result3 = response;
+            for (var element in result1){
+                var score = element[0];
+                var item = element[1];
+                var name = element[2];
+                var msg = element[3];
+
+                $('#table3').append('<tr><td>'+score+'</td><td>'+item+'</td><td>'+name+'</td><td>'+msg+'</td></tr>');
+            }
+
+        },
+        error:function(error){
+            console.log(error);
+        }
+    });
 
     $.ajax({
         type:'GET',
         url: currentURL.origin + '/api/feedback/sent',
         success:function(response){
-            result1 = response[0];
-            console.log(result1);
-            for (var i=0;i<=result1.length;i++){
-                 $('#table4').append('<tr><td>'+result1[0] +'</td><td>'+result1[1]+'</td><td>'+result1[2]+'</td><td>'+result1[3] +'</td></tr>');
+            result4 = response;
+            for (var element in result4){
+                var score = element[0];
+                var item = element[1];
+                var name = element[2];
+                var msg = element[3];
+
+                $('#table4').append('<tr><td>'+score+'</td><td>'+item+'</td><td>'+name+'</td><td>'+msg+'</td></tr>');
             }
+
         },
         error:function(error){
             console.log(error);
